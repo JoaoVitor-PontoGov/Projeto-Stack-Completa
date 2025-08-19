@@ -39,6 +39,8 @@ class TbEquipamento{
   }
 
   public function Insert($objTbEquipamento){
+    $dtbServer = new DtbServer();
+
     $dsSql = "INSERT INTO 
                 shtreinamento.tbequipamento(
                   idequipamento,
@@ -57,8 +59,6 @@ class TbEquipamento{
                   '".$objTbEquipamento->Get("flstatus") ."'
                 );";
 
-    $dtbServer = new DtbServer();
-
     if(!$dtbServer->Exec($dsSql)){
       $arrMsg = $dtbServer->getMessage();
     }else{
@@ -68,18 +68,19 @@ class TbEquipamento{
   }
 
   public function Update($objTbEquipamento){
-    $dsSql = "UPDATE 
-        shtreinamento.tbequipamento
-        SET 
-          idequipamento = ".$objTbEquipamento->Get("idequipamento") .",
-          nmequipamento = '".$objTbEquipamento->Get("nmequipamento") ."',
-          dstipo = '".$objTbEquipamento->Get("dstipo") ."',
-          nrserie = ".$objTbEquipamento->Get("nrserie") .",
-          dtaquisicao = '".$objTbEquipamento->Get("dtaquisicao") ."',
-          flstatus = '".$objTbEquipamento->Get("flstatus") ."'
-        WHERE idequipamento = ".$objTbEquipamento->Get("idequipamento") .";";
-
     $dtbServer = new DtbServer();
+
+    $dsSql = "UPDATE 
+                shtreinamento.tbequipamento
+              SET 
+                idequipamento = ".$objTbEquipamento->Get("idequipamento") .",
+                nmequipamento = '".$objTbEquipamento->Get("nmequipamento") ."',
+                dstipo = '".$objTbEquipamento->Get("dstipo") ."',
+                nrserie = ".$objTbEquipamento->Get("nrserie") .",
+                dtaquisicao = '".$objTbEquipamento->Get("dtaquisicao") ."',
+                flstatus = '".$objTbEquipamento->Get("flstatus") ."'
+              WHERE
+                idequipamento = ".$objTbEquipamento->Get("idequipamento") .";";
 
     if(!$dtbServer->Exec($dsSql)){
       $arrMsg = $dtbServer->getMessage();
@@ -90,11 +91,12 @@ class TbEquipamento{
   }
 
   public function Delete($objTbEquipamento){
+    $dtbServer = new DtbServer();
+  
     $dsSql = "DELETE FROM
                 shtreinamento.tbequipamento
-              WHERE id = " . $objTbEquipamento->Get("idequipamento") .";";
-
-    $dtbServer = new DtbServer();
+              WHERE
+                idequipamento = " . $objTbEquipamento->Get("idequipamento") .";";
 
     if(!$dtbServer->Exec($dsSql)){
       $arrMsg = $dtbServer->getMessage();
@@ -103,6 +105,48 @@ class TbEquipamento{
     }
     return $arrMsg;
   }
-  
+
+  public static function LoadByIdEquipamento($idEquipamento){
+    $dtbServer = new DtbServer();
+    $objTbEquipamento = new TbEquipamento();
+
+    $dsSql = "SELECT * FROM
+                shtreinamento.tbequipamento
+              WHERE idequipamento = " . $idEquipamento . " ";
+
+    if(!$dtbServer->Query($dsSql)){
+      return $dtbServer->getMessage()["dsMsg"];
+    }else{
+      $resSet = $dtbServer->FetchArray();
+      $objTbEquipamento = $objTbEquipamento->LoadObject($resSet);
+      return $objTbEquipamento;
+    }
+  }
+
+  public static function ListByCondicao($strCondicao, $strOrdenacao){
+    $dtbServer = new DtbServer();
+    $objTbEquipamento = new TbEquipamento();
+
+    $dsSql = "SELECT * FROM
+                shtreinamento.tbequipamento
+              WHERE
+                1 = 1 ";
+    
+    if($strCondicao){
+      $dsSql .= $strCondicao;
+    }
+
+    if($strOrdenacao){
+      $dsSql .= " ORDER BY ". $strOrdenacao;
+    }
+
+    if(!$dtbServer->Query($dsSql)){
+      return $dtbServer->getMessage()["dsMsg"];
+    }else{
+      while($resSet = $dtbServer->FetchArray()){
+        $arrMsg = $objTbEquipamento->LoadObject($resSet);
+      }
+    }
+  }
 }
 
