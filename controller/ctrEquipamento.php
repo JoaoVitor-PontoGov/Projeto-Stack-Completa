@@ -2,18 +2,10 @@
   require_once "../lib/libDatabase.php";
   require_once "../model/mdlTbEquipamento.php";
 
-//   $objTbEquipamento = new TbEquipamento();
+  if(isset($_GET["action"]) && $_GET["action"]=="winConsulta"){
+    require_once "../view/viwConsultaEquipamento.php";
+  }
 
-//     $objTbEquipamento->Set("nmequipamento", "geladeira");
-//     $objTbEquipamento->Set("dstipo", "cosinha");
-//     $objTbEquipamento->Set("nrserie", 777);
-//     $objTbEquipamento->Set("dtaquisicao", "2025-07-20");
-//     $objTbEquipamento->Set("flstatus", "DP");
-
-//  $arrResult = $objTbEquipamento->Insert($objTbEquipamento);
-
-//  var_dump($arrResult);
-
-$objTbEquipamento = TbEquipamento::LoadByIdEquipamento('vvhcv');
-
-var_dump($objTbEquipamento);
+  if(isset($_GET["action"]) && $_GET["action"]=="incluir"){
+    require_once "../view/viwCadastroEquipamento.php";
+  }
