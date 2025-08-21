@@ -144,8 +144,9 @@ class TbEquipamento{
       return $dtbServer->getMessage()["dsMsg"];
     }else{
       while($resSet = $dtbServer->FetchArray()){
-        $arrMsg = $objTbEquipamento->LoadObject($resSet);
+        $aroTbEquipamento[] = $objTbEquipamento->LoadObject($resSet);
       }
+      return $aroTbEquipamento;
     }
   }
 }

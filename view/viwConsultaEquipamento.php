@@ -112,17 +112,21 @@
 			},
 		]
 
+		//--------------------------------------------------------------------------------------------------------------------//
+		// Configura a tela para usar spliter
+		//--------------------------------------------------------------------------------------------------------------------//
 		arrDataSource = LoadConfigurationQuery(arrDataSource, "ConsultaEquipamento");
+		//--------------------------------------------------------------------------------------------------------------------//
 
+		//--------------------------------------------------------------------------------------------------------------------//
+		// Instanciando os campos combo da pesquisa
+		//--------------------------------------------------------------------------------------------------------------------//
 		createPgFilter(arrDataSource, "ConsultaEquipamento");
+		//--------------------------------------------------------------------------------------------------------------------//
 
-		$("#frmConsultaEquipamento #BtnPesquisar").kendoButton({
-			click: function () {
-				DtsConsultaEquipamento.filter(getExtraFilter())
-				DtsConsultaEquipamento.read()
-			}
-		})
-
+		//--------------------------------------------------------------------------------------------------------------------//
+		// Área de botões de ações
+		//--------------------------------------------------------------------------------------------------------------------//
 		$("#frmConsultaEquipamento #BarAcoes").kendoToolBar({
 			items: [
 				{
@@ -152,7 +156,8 @@
 								var grid = $("#frmConsultaEquipamento #GrdConsultaEquipamento").data("kendoGrid")
 								var campoSelecionado = grid.dataItem(grid.select())
 
-								OpenWindow(true, "CadastroEquipamento", "controller/ctrEquipamento.php?action=incluir", "Cadastro Equipamento")
+
+								OpenWindow(true, "CadastroEquipamento", "controller/ctrEquipamento.php?action=editar&idEquipamento="+campoSelecionado.idequipamento, "Cadastro Equipamento")
 							}
 						},
 						{
@@ -169,37 +174,68 @@
 				}
 			]
 		})
+		//--------------------------------------------------------------------------------------------------------------------//
 
+		//--------------------------------------------------------------------------------------------------------------------//
+		// Instanciando o data source da consulta
+		//--------------------------------------------------------------------------------------------------------------------//
 		let DtsConsultaEquipamento = new kendo.data.DataSource({
 			pageSize: 100,
+			serverPaging: true,
+			serverFiltering: true,
+			serverSorting: true,
 			transport: {
-
+				read: {
+					url: "controller/ctrEquipamento.php",
+					type: "GET",
+					dataType: "json",
+					data: function(){
+						return {
+							action: "ListEquipamento",
+							filters: getExtraFilter()
+						}
+					}
+				}
 			},
 			schema: {
-				model: getModelDataSource(arrDataSource)
+				data: "jsnEquipamento",
+				model: {
+					fields: getModelDataSource(arrDataSource),
+				},
+				errors: "error"
 			}
 		})
+		//--------------------------------------------------------------------------------------------------------------------//
 
+		//--------------------------------------------------------------------------------------------------------------------//
+		// Instanciando o botão de consulta
+		//--------------------------------------------------------------------------------------------------------------------//
+		$("#frmConsultaEquipamento #BtnPesquisar").kendoButton({
+			click: function () {
+				DtsConsultaEquipamento.filter(getExtraFilter())
+				DtsConsultaEquipamento.read()
+			}
+		})
+		//--------------------------------------------------------------------------------------------------------------------//
+
+		//--------------------------------------------------------------------------------------------------------------------//
+		// Filto extra de consulta
+		//--------------------------------------------------------------------------------------------------------------------//
 		function getExtraFilter() {
 			let arrFilds = LoadFilterSplitter("ConsultaEquipamento", arrDataSource)
 			return arrFilds;
 		}
+		//--------------------------------------------------------------------------------------------------------------------//
 
+		//--------------------------------------------------------------------------------------------------------------------//
+		// Instanciando o grid da consulta
+		//--------------------------------------------------------------------------------------------------------------------//
 		$("#frmConsultaEquipamento #GrdConsultaEquipamento").kendoGrid({
 			pdf: SetPdfOptions("Listagem de equipamentos"),
 			pdfExport: function () {
 				tituloPdfExport = "Listagem de equipamentos"
 			},
-			dataSource: [
-				{
-					idequipamento: "1",
-					nmequipamento: "pacacete",
-					dstipo: "coisinha",
-					nrserie: "23",
-					dtaquisicao: "2025-08-19",
-					flstatus: "DP"
-				}
-			],
+			dataSource: DtsConsultaEquipamento,
 			height: getHeightGridQuery("ConsultaEquipamento"),
 			columns: getColumnsQuery(arrDataSource),
 			selectable: "row",
@@ -228,9 +264,22 @@
 			}
 		})
 
-		$("#WinConsultaEquipamento").data("kendoWindow").open();
+		$("#frmConsultaEquipamento #GrdConsultaEquipamento").on("dblclick", "tbody>tr", function(){
+			$("#frmConsultaEquipamento #BtnEditar").click();
+		})
+		//--------------------------------------------------------------------------------------------------------------------//
 
+		//--------------------------------------------------------------------------------------------------------------------//
+		//	Ação para abrir a tela de consulta
+		//--------------------------------------------------------------------------------------------------------------------//
+		$("#WinConsultaEquipamento").data("kendoWindow").open();
+		//--------------------------------------------------------------------------------------------------------------------//
+
+		//--------------------------------------------------------------------------------------------------------------------//
+		// Cria a tela de vizualização do item do grid na consulta, e faz outras coisa aí...
+		//--------------------------------------------------------------------------------------------------------------------//
 		createScreenPreview(arrDataSource, "ConsultaEquipamento");
+		//--------------------------------------------------------------------------------------------------------------------//
 	})
 </script>
 

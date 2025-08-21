@@ -23,7 +23,10 @@ class DtbServer{
   }
 
   public function getMessage(){
-    return ["dsMsg"=>pg_last_error($this->conn).". sql: ". $this->sql];
+    return [
+      "dsMsg" => pg_last_error($this->conn).". sql: ". $this->sql,
+      "flTipo" => "E"
+    ];
   }
 
   public function FetchArray(){
