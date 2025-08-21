@@ -31,7 +31,7 @@
 							attributes: { tabindex: "30" },
 							click: function () {
 								$.post(
-									"controller/ctrEquipamento.php?action=gravar",
+									"controller/equipamento/ctrEquipamento.php?action=gravar",
 									$("#frmCadastroEquipamento").serialize(),
 									function(response){
 										Message(response.flDisplay, response.flTipo, response.dsMsg)
@@ -53,7 +53,7 @@
 							click: function () {
 								$("#WinCadastroEquipamento").data("kendoWindow").refresh(
 									{
-									url: "controller/ctrEquipamento.php?action=incluir"
+									url: "controller/equipamento/ctrEquipamento.php?action=incluir"
 									});
 							}
 						},
@@ -66,7 +66,7 @@
 							enable: false,
 							click: function () {
 								$.post(
-									"controller/ctrEquipamento.php?action=excluir",
+									"controller/equipamento/ctrEquipamento.php?action=excluir",
 									$("#frmCadastroEquipamento").serialize(),
 									function(response){
 										Message(response.flDisplay, response.flTipo, response.dsMsg);

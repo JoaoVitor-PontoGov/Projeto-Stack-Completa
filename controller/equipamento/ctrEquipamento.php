@@ -1,7 +1,7 @@
 <?php
-  require_once "../lib/libDatabase.php";
-  require_once "../lib/libUtils.php";
-  require_once "../model/mdlTbEquipamento.php";
+  require_once "../../lib/libDatabase.php";
+  require_once "../../lib/libUtils.php";
+  require_once "../../model/mdlTbEquipamento.php";
 
   $objTbEquipamento = new TbEquipamento();
   $fmt = new Format();
@@ -12,7 +12,7 @@
   // Ação de Abertura da Tela de Consulta
   //-------------------------------------------------------------------------------------------------------------------//
   if(isset($_GET["action"]) && $_GET["action"]=="winConsulta"){
-    require_once "../view/viwConsultaEquipamento.php";
+    require_once "../../view/equipamento/viwConsultaEquipamento.php";
   }
   //-------------------------------------------------------------------------------------------------------------------//
   
@@ -20,7 +20,7 @@
   //  Ação de inclusão de registros
   //-------------------------------------------------------------------------------------------------------------------//
   if(isset($_GET["action"]) && $_GET["action"]=="incluir"){
-    require_once "../view/viwCadastroEquipamento.php";
+    require_once "../../view/equipamento/viwCadastroEquipamento.php";
   }
   //-------------------------------------------------------------------------------------------------------------------//
 
@@ -30,7 +30,7 @@
   if(isset($_GET["action"]) && $_GET["action"]== "editar"){
     $objTbEquipamento = TbEquipamento::LoadByIdEquipamento($_GET["idEquipamento"]);
 
-    require_once "../view/viwCadastroEquipamento.php";
+    require_once "../../view/equipamento/viwCadastroEquipamento.php";
     
   }
   //-------------------------------------------------------------------------------------------------------------------//

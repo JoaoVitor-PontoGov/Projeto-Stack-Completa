@@ -142,7 +142,7 @@
 							attributes: { tabindex: "30" },
 							click: function () {
 								console.log("!")
-								OpenWindow(true, "CadastroEquipamento", "controller/ctrEquipamento.php?action=incluir", "Cadastro Equipamento")
+								OpenWindow(true, "CadastroEquipamento", "controller/equipamento/ctrEquipamento.php?action=incluir", "Cadastro Equipamento")
 							}
 						},
 						{
@@ -157,7 +157,7 @@
 								var campoSelecionado = grid.dataItem(grid.select())
 
 
-								OpenWindow(true, "CadastroEquipamento", "controller/ctrEquipamento.php?action=editar&idEquipamento="+campoSelecionado.idequipamento, "Cadastro Equipamento")
+								OpenWindow(true, "CadastroEquipamento", "controller/equipamento/ctrEquipamento.php?action=editar&idEquipamento="+campoSelecionado.idequipamento, "Cadastro Equipamento")
 							}
 						},
 						{
@@ -186,7 +186,7 @@
 			serverSorting: true,
 			transport: {
 				read: {
-					url: "controller/ctrEquipamento.php",
+					url: "controller/equipamento/ctrEquipamento.php",
 					type: "GET",
 					dataType: "json",
 					data: function(){

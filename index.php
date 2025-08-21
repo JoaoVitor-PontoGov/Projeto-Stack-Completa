@@ -160,7 +160,7 @@
               {
                 text: "Consulta Equipamento",
                 select: function () {
-                  OpenWindow(false, "ConsultaEquipamento", "controller/ctrEquipamento.php?action=winConsulta", "Consulta Equipamento")
+                  OpenWindow(false, "ConsultaEquipamento", "controller/equipamento/ctrEquipamento.php?action=winConsulta", "Consulta Equipamento")
                 }
               }
             ]
