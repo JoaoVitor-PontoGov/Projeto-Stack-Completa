@@ -35,6 +35,46 @@
 									$("#frmCadastroEquipamento").serialize(),
 									function(response){
 										Message(response.flDisplay, response.flTipo, response.dsMsg)
+
+										if(response.flTipo == "S"){
+											$("#frmConsultaEquipamento #BtnPesquisar").click();
+											$("#frmCadastroEquipamento #BtnLimpar").click();
+										}
+									},"json"
+								)
+							}
+						},
+						{
+							id: "BtnLimpar",
+							spriteCssClass: "k-pg-icon k-i-l1-c6",
+							text: "Limpar",
+							group: "actions",
+							attributes: { tabindex: "31" },
+							click: function () {
+								$("#WinCadastroEquipamento").data("kendoWindow").refresh(
+									{
+									url: "controller/ctrEquipamento.php?action=incluir"
+									});
+							}
+						},
+						{
+							id: "BtnExcluir",
+							spriteCssClass: "k-pg-icon k-i-l1-c7",
+							text: "Excluir",
+							group: "actions",
+							attributes: { tabindex: "32" },
+							enable: false,
+							click: function () {
+								$.post(
+									"controller/ctrEquipamento.php?action=excluir",
+									$("#frmCadastroEquipamento").serialize(),
+									function(response){
+										Message(response.flDisplay, response.flTipo, response.dsMsg);
+
+										if(response.flTipo == "S"){
+											$("#frmConsultaEquipamento #BtnPesquisar").click();
+											$("#frmCadastroEquipamento #BtnLimpar").click();
+										}
 									},"json"
 								)
 							}
@@ -44,7 +84,7 @@
 							spriteCssClass: "k-pg-icon k-i-l1-c4",
 							text: "Fechar",
 							group: "actions",
-							attributes: { tabindex: "31" },
+							attributes: { tabindex: "33" },
 							click: function () {
 								$("#WinCadastroEquipamento").data("kendoWindow").close();
 							}
@@ -58,7 +98,10 @@
     //--------------------------------------------------------------------------------------------------------------------//
     //  Ações diversas da tela de cadastro
     //--------------------------------------------------------------------------------------------------------------------//
-    $("#WinCadastroEquipamento").data("kendoWindow").center().open();
+    if($("#frmCadastroEquipamento #idEquipamento").val()!=""){
+			$("#frmCadastroEquipamento #BarAcoes").data("kendoToolBar").enable("#BtnExcluir")
+		}
+		$("#WinCadastroEquipamento").data("kendoWindow").center().open();
     //--------------------------------------------------------------------------------------------------------------------//
   })
 </script>
@@ -70,51 +113,51 @@
 				<td style="text-align: right; width: 120px;">Id:</td>
 				<td>
 					<input type="text" id="idEquipamento" name="idEquipamento" class="k-textbox k-input-disabled"
-						readonly="readonly" style="width: 80px;" value="<?php echo $objTbEquipamento->Get("idequipamento") ?>">
+						readonly="readonly" style="width: 80px;" tabindex="-1" value="<?php echo $objTbEquipamento->Get("idequipamento") ?>">
 				</td>
 			</tr>
 		</table>
 		<table width="100%" cellspacing="2" cellpadding="0" role="presentation">
 			<tr>
-				<td style="text-align: right; width: 120px;">Nome:</td>
+				<td class="k-required" style="text-align: right; width: 120px;">Nome:</td>
 				<td>
-					<input type="text" id="nmEquipamento" name="nmEquipamento" class="k-textbox" style="width: 600px;"
+					<input tabindex="1" type="text" id="nmEquipamento" name="nmEquipamento" class="k-textbox" style="width: 600px;"
 					 value="<?php echo $objTbEquipamento->Get("nmequipamento")?>">
 				</td>
 			</tr>
 		</table>
 		<table width="100%" cellspacing="2" cellpadding="0" role="presentation">
 			<tr>
-				<td style="text-align: right; width: 120px;">Tipo:</td>
+				<td class="k-required" style="text-align: right; width: 120px;">Tipo:</td>
 				<td>
-					<input type="text" id="dsTipo" name="dsTipo" class="k-textbox" style="width: 600px;"
+					<input tabindex="2" type="text" id="dsTipo" name="dsTipo" class="k-textbox" style="width: 600px;"
 					value="<?php echo $objTbEquipamento->Get("dstipo")?>">
 				</td>
 			</tr>
 		</table>
 		<table width="100%" cellspacing="2" cellpadding="0" role="presentation">
 			<tr>
-				<td style="text-align: right; width: 120px;">Num Serie:</td>
+				<td class="k-required" style="text-align: right; width: 120px;">Num Serie:</td>
 				<td>
-					<input id="nrSerie" name="nrSerie" style="width: 150px;"
+					<input tabindex="3" id="nrSerie" name="nrSerie" style="width: 150px;"
 					value="<?php echo $objTbEquipamento->Get("nrserie")?>">
 				</td>
 			</tr>
 		</table>
 		<table width="100%" cellspacing="2" cellpadding="0" role="presentation">
 			<tr>
-				<td style="text-align: right; width: 120px;">Data de aquisicao:</td>
+				<td class="k-required" style="text-align: right; width: 120px;">Data de aquisicao:</td>
 				<td>
-					<input id="dtAquisicao" name="dtAquisicao" style="width: 250px;"
-					value="<?php echo $objTbEquipamento->Get("dtaquisicao")?>">
+					<input tabindex="4" id="dtAquisicao" name="dtAquisicao" style="width: 250px;"
+					value="<?php echo $fmt->data($objTbEquipamento->Get("dtaquisicao"))?>">
 				</td>
 			</tr>
 		</table>
 		<table width="100%" cellspacing="2" cellpadding="0" role="presentation">
 			<tr>
-				<td style="text-align: right; width: 120px;">Status:</td>
+				<td class="k-required" style="text-align: right; width: 120px;">Status:</td>
 				<td>
-					<select id="flStatus" name="flStatus" style="width: 250px;">
+					<select tabindex="5" id="flStatus" name="flStatus" style="width: 250px;">
 						<option></option>
 						<option value="DP" <?php echo $objTbEquipamento->Get("flstatus")=="DP" ? "selected": "" ?>>Disponivel</option>
 						<option value="EU" <?php echo $objTbEquipamento->Get("flstatus")=="EU" ? "selected": "" ?>>Em Uso</option>

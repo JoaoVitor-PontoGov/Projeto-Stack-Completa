@@ -4,27 +4,46 @@
   require_once "../model/mdlTbEquipamento.php";
 
   $objTbEquipamento = new TbEquipamento();
+  $fmt = new Format();
   $objMsg = new Message();
   
+
+  //-------------------------------------------------------------------------------------------------------------------//
+  // Ação de Abertura da Tela de Consulta
+  //-------------------------------------------------------------------------------------------------------------------//
   if(isset($_GET["action"]) && $_GET["action"]=="winConsulta"){
     require_once "../view/viwConsultaEquipamento.php";
   }
-
+  //-------------------------------------------------------------------------------------------------------------------//
+  
+  //-------------------------------------------------------------------------------------------------------------------//
+  //  Ação de inclusão de registros
+  //-------------------------------------------------------------------------------------------------------------------//
   if(isset($_GET["action"]) && $_GET["action"]=="incluir"){
     require_once "../view/viwCadastroEquipamento.php";
   }
+  //-------------------------------------------------------------------------------------------------------------------//
 
+  //-------------------------------------------------------------------------------------------------------------------//
+  //  Ação de edição de registros
+  //-------------------------------------------------------------------------------------------------------------------//
   if(isset($_GET["action"]) && $_GET["action"]== "editar"){
     $objTbEquipamento = TbEquipamento::LoadByIdEquipamento($_GET["idEquipamento"]);
 
     require_once "../view/viwCadastroEquipamento.php";
     
   }
+  //-------------------------------------------------------------------------------------------------------------------//
 
-
+  
+  //-------------------------------------------------------------------------------------------------------------------//
+  //  Ação de consulta de registro
+  //-------------------------------------------------------------------------------------------------------------------//
   if(isset($_GET["action"]) && $_GET["action"]=="ListEquipamento"){
     $objFilter = new Filter($_GET);
     
+    global $_intTotalEquipamento;
+
     $aroTbEquipamento = TbEquipamento::ListByCondicao($objFilter->GetWhere(), $objFilter->GetOrderBy());
 
     if(is_array($aroTbEquipamento) && count($aroTbEquipamento)> 0){
@@ -36,13 +55,13 @@
         $arrTempor["nmequipamento"] = $objTbEquipamento->Get("nmequipamento");
         $arrTempor["dstipo"] = $objTbEquipamento->Get("dstipo");
         $arrTempor["nrserie"] = $objTbEquipamento->Get("nrserie");
-        $arrTempor["dtaquisicao"] = $objTbEquipamento->Get("dtaquisicao");
+        $arrTempor["dtaquisicao"] = $fmt->data($objTbEquipamento->Get("dtaquisicao"));
         $arrTempor["flstatus"] = $objTbEquipamento->Get("flstatus");
 
         array_push($arrLinhas, $arrTempor);
       }
 
-      echo '{"jsnEquipamento": '.json_encode($arrLinhas).'}';
+      echo '{"jsnEquipamento": '.json_encode($arrLinhas).', "jsnTotal": '.  $_intTotalEquipamento . '}';
 
     } else if(!is_array($aroTbEquipamento) && trim($aroTbEquipamento)!= ""){// Sinal de erro na busca
       echo '{"error": ' .$aroTbEquipamento. '}';
@@ -50,7 +69,11 @@
       echo '{"jsnEquipamento": null}';
     }
   }
+  //-------------------------------------------------------------------------------------------------------------------//
 
+  //-------------------------------------------------------------------------------------------------------------------//
+  //  Ação para a gravação de registros
+  //-------------------------------------------------------------------------------------------------------------------//
   if(isset($_GET["action"]) && $_GET["action"]== "gravar"){
     $objTbEquipamento->Set("idequipamento",$_POST["idEquipamento"]);
     $objTbEquipamento->Set("nmequipamento",$_POST["nmEquipamento"]);
@@ -101,3 +124,21 @@
       }
     }
   }
+  //-------------------------------------------------------------------------------------------------------------------//
+
+  //-------------------------------------------------------------------------------------------------------------------//
+  // Ação para a exclusão de registros
+  //-------------------------------------------------------------------------------------------------------------------//
+  if(isset($_GET["action"]) && $_GET["action"] == "excluir"){
+    $objTbEquipamento = TbEquipamento::LoadByIdEquipamento($_POST["idEquipamento"]);
+
+    $arrResult = $objTbEquipamento->Delete($objTbEquipamento);
+  
+    if($arrResult["dsMsg"]=="ok"){
+      $objMsg->Succes("ntf","Registro excluido com sucesso!");
+    }else{
+      $objMsg->LoadMessage($arrResult);
+      $objTbEquipamento = new TbEquipamento();
+    }
+  }
+  //-------------------------------------------------------------------------------------------------------------------//

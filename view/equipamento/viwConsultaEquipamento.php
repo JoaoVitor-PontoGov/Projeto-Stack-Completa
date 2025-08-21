@@ -199,10 +199,12 @@
 			},
 			schema: {
 				data: "jsnEquipamento",
+				total: "jsnTotal",
 				model: {
 					fields: getModelDataSource(arrDataSource),
 				},
-				errors: "error"
+				errors: "error",
+
 			}
 		})
 		//--------------------------------------------------------------------------------------------------------------------//

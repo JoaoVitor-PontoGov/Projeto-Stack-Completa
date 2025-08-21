@@ -34,12 +34,17 @@ class TbEquipamento{
     $objTbEquipamento->Set("nrserie", $resSet["nrserie"]);
     $objTbEquipamento->Set("dtaquisicao", $resSet["dtaquisicao"]);
     $objTbEquipamento->Set("flstatus", $resSet["flstatus"]);
-
+    
+    if(!isset($GLOBALS["_intTotalEquipamento"])){
+      $GLOBALS["_intTotalEquipamento"] = $resSet["_inttotal"];
+    }
     return $objTbEquipamento;
   }
 
   public function Insert($objTbEquipamento){
     $dtbServer = new DtbServer();
+
+    $fmt = new Format();
 
     $dsSql = "INSERT INTO 
                 shtreinamento.tbequipamento(
@@ -52,10 +57,10 @@ class TbEquipamento{
                 )
                 VALUES(
                   (SELECT NEXTVAL('shtreinamento.sqidequipamento')),
-                  '".$objTbEquipamento->Get("nmequipamento") ."',
-                  '".$objTbEquipamento->Get("dstipo") ."',
+                  '".$fmt->escSqlQuotes($objTbEquipamento->Get("nmequipamento")) ."',
+                  '".$fmt->escSqlQuotes($objTbEquipamento->Get("dstipo")) ."',
                   ".$objTbEquipamento->Get("nrserie") .",
-                  '".$objTbEquipamento->Get("dtaquisicao") ."',
+                  '". $fmt->data($objTbEquipamento->Get("dtaquisicao")) ."',
                   '".$objTbEquipamento->Get("flstatus") ."'
                 );";
 
@@ -70,14 +75,16 @@ class TbEquipamento{
   public function Update($objTbEquipamento){
     $dtbServer = new DtbServer();
 
+    $fmt = new Format();
+
     $dsSql = "UPDATE 
                 shtreinamento.tbequipamento
               SET 
                 idequipamento = ".$objTbEquipamento->Get("idequipamento") .",
-                nmequipamento = '".$objTbEquipamento->Get("nmequipamento") ."',
-                dstipo = '".$objTbEquipamento->Get("dstipo") ."',
+                nmequipamento = '".$fmt->escSqlQuotes($objTbEquipamento->Get("nmequipamento")) ."',
+                dstipo = '".$fmt->escSqlQuotes($objTbEquipamento->Get("dstipo")) ."',
                 nrserie = ".$objTbEquipamento->Get("nrserie") .",
-                dtaquisicao = '".$objTbEquipamento->Get("dtaquisicao") ."',
+                dtaquisicao = '". $fmt->data($objTbEquipamento->Get("dtaquisicao")) ."',
                 flstatus = '".$objTbEquipamento->Get("flstatus") ."'
               WHERE
                 idequipamento = ".$objTbEquipamento->Get("idequipamento") .";";
@@ -127,7 +134,10 @@ class TbEquipamento{
     $dtbServer = new DtbServer();
     $objTbEquipamento = new TbEquipamento();
 
-    $dsSql = "SELECT * FROM
+    $dsSql = "SELECT
+                *,
+              COUNT(*) OVER() _inttotal
+              FROM
                 shtreinamento.tbequipamento
               WHERE
                 1 = 1 ";
