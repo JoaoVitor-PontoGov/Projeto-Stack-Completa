@@ -162,6 +162,12 @@
                 select: function () {
                   OpenWindow(false, "ConsultaEquipamento", "controller/equipamento/ctrEquipamento.php?action=winConsulta", "Consulta Equipamento")
                 }
+              },
+              {
+                text: "Consulta Colaborador",
+                select: function () {
+                  OpenWindow(false, "ConsultaColaborador", "controller/colaborador/ctrColaborador.php?action=winConsulta", "Consulta Colaborador")
+                }
               }
             ]
           }
