@@ -1,3 +1,7 @@
+<?php
+@header("Content-Type: text/html; charset=ISO-8859-1", true);
+?>
+
 <script>
   $(function(){
 
@@ -21,7 +25,7 @@
 				positionPreview: '1',
 			},
 			{
-				name: "nmecolaborador",
+				name: "nmcolaborador",
 				type: "string",
 				label: "Nome",
 				visibleFilter: 'true',
@@ -139,7 +143,7 @@
 								var campoSelecionado = grid.dataItem(grid.select())
 
 
-								OpenWindow(true, "CadastroColaborador", "controller/colaborador/ctrColaborador.php?action=editar&idColaborador="+campoSelecionado.idcolaboradorColaborador, "Cadastro Colaborador")
+								OpenWindow(true, "CadastroColaborador", "controller/colaborador/ctrColaborador.php?action=editar&idColaborador="+campoSelecionado.idcolaboradorequipamento, "Cadastro Colaborador")
 							}
 						},
 						{

@@ -32,8 +32,8 @@ class TbColaborador{
     $objTbColaborador->Set("dssetor", $resSet["dssetor"]);
     $objTbColaborador->Set("dscargo", $resSet["dscargo"]);
 
-    if(!isset($GLOBALS["_intTotalColaboradores"])){
-      $GLOBALS["_intTotalColaboradores"] = $resSet["_inttotal"];
+    if(!isset($GLOBALS["_intTotalColaborador"])){
+      $GLOBALS["_intTotalColaborador"] = $resSet["_inttotal"];
     }
 
     return $objTbColaborador;
@@ -55,14 +55,14 @@ class TbColaborador{
                   '". $objTbColaborador->Get("nmcolaborador") ."',
                   '". $objTbColaborador->Get("dsemail") ."',
                   '". $objTbColaborador->Get("dssetor") ."',
-                  '". $objTbColaborador->Get("dscargo") ."',
+                  '". $objTbColaborador->Get("dscargo") ."'
                 );
               ";
 
     if(!$dtbServer->Exec($dsSql)){
       $arrMsg = $dtbServer->getMessage();
     } else {
-      $arrMsg = ["dsMsg", "ok"];
+      $arrMsg = ["dsMsg"=> "ok"];
     }
 
     return $arrMsg;
@@ -72,13 +72,13 @@ class TbColaborador{
     $dtbServer = new DtbServer();
 
     $dsSql = "UPDATE 
-                shtreinamento.tbequipamento
+                shtreinamento.tbcolaboradorequipamento
               SET 
-                idcolaboradoreqipamento = '". $objTbColaborador->Get("idcolaboradorequipamento") ."',
+                idcolaboradorequipamento = '". $objTbColaborador->Get("idcolaboradorequipamento") ."',
                 nmcolaborador = '". $objTbColaborador->Get("nmcolaborador") ."',
                 dsemail = '". $objTbColaborador->Get("dsemail") ."',
                 dssetor = '". $objTbColaborador->Get("dssetor") ."',
-                dsnome = '". $objTbColaborador->Get("dscargo") ."'
+                dscargo = '". $objTbColaborador->Get("dscargo") ."'
               WHERE 
                 idcolaboradorequipamento = ". $objTbColaborador->Get("idcolaboradorequipamento") . ";
               ";
@@ -86,7 +86,7 @@ class TbColaborador{
     if(!$dtbServer->Exec($dsSql)){
       $arrMsg = $dtbServer->getMessage();
     } else {
-      $arrMsg = ["dsMsg", "ok"];
+      $arrMsg = ["dsMsg"=> "ok"];
     }
     return $arrMsg;
   }
@@ -95,9 +95,9 @@ class TbColaborador{
     $dtbServer = new DtbServer();
 
     $dsSql = "DELETE FROM 
-                shtreinamento.tbequipamento
+                shtreinamento.tbcolaboradorequipamento
               WHERE 
-                idcolaboradoreqipamento = '". $objTbColaborador->Get("idcolaboradorequipamento") ."',
+                idcolaboradorequipamento = '". $objTbColaborador->Get("idcolaboradorequipamento") ."',
               ";
     
     if(!$dtbServer->Exec($dsSql)){
@@ -110,18 +110,18 @@ class TbColaborador{
 
   public static function LoadByIdColaborador($idcolaboradorequipamento){
     $dtbServer = new DtbServer();
-    $objTbEquipamento = new TbEquipamento();
+    $objTbColaborador = new TbColaborador();
 
     $dsSql = "SELECT * FROM
-                shtreinamento.tbequipamento
+                shtreinamento.tbcolaboradorequipamento
               WHERE idcolaboradorequipamento = " . $idcolaboradorequipamento . " ";
 
     if(!$dtbServer->Query($dsSql)){
       return $dtbServer->getMessage()["dsMsg"];
     }else{
       $resSet = $dtbServer->FetchArray();
-      $objTbEquipamento = $objTbEquipamento->LoadObject($resSet);
-      return $objTbEquipamento;
+      $objTbColaborador = $objTbColaborador->LoadObject($resSet);
+      return $objTbColaborador;
     }
   }
 
@@ -131,7 +131,7 @@ class TbColaborador{
 
     $dsSql = "SELECT 
                 *,
-                COUNT(*) OVER _inttotal
+                COUNT(*) OVER() _inttotal
               FROM
                 shtreinamento.tbcolaboradorequipamento
               WHERE 

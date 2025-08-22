@@ -11,7 +11,7 @@
   //-------------------------------------------------------------------------------------------------------------------//
   // Ação de Abertura da Tela de Consulta
   //-------------------------------------------------------------------------------------------------------------------//
-  if(isset($_GET["action"]) && $_GET["action"]=="winConsulta"){
+  if(isset($_GET["action"]) && $_GET["action"] == "winConsulta"){
     require_once "../../view/equipamento/viwConsultaEquipamento.php";
   }
   //-------------------------------------------------------------------------------------------------------------------//
@@ -19,7 +19,7 @@
   //-------------------------------------------------------------------------------------------------------------------//
   //  Ação de inclusão de registros
   //-------------------------------------------------------------------------------------------------------------------//
-  if(isset($_GET["action"]) && $_GET["action"]=="incluir"){
+  if(isset($_GET["action"]) && $_GET["action"] == "incluir"){
     require_once "../../view/equipamento/viwCadastroEquipamento.php";
   }
   //-------------------------------------------------------------------------------------------------------------------//
@@ -27,7 +27,7 @@
   //-------------------------------------------------------------------------------------------------------------------//
   //  Ação de edição de registros
   //-------------------------------------------------------------------------------------------------------------------//
-  if(isset($_GET["action"]) && $_GET["action"]== "editar"){
+  if(isset($_GET["action"]) && $_GET["action"] == "editar"){
     $objTbEquipamento = TbEquipamento::LoadByIdEquipamento($_GET["idEquipamento"]);
 
     require_once "../../view/equipamento/viwCadastroEquipamento.php";
@@ -52,7 +52,7 @@
 
       foreach($aroTbEquipamento as $objTbEquipamento){
         $arrTempor["idequipamento"] = $objTbEquipamento->Get("idequipamento");
-        $arrTempor["nmequipamento"] = $objTbEquipamento->Get("nmequipamento");
+        $arrTempor["nmequipamento"] = utf8_encode($objTbEquipamento->Get("nmequipamento"));
         $arrTempor["dstipo"] = $objTbEquipamento->Get("dstipo");
         $arrTempor["nrserie"] = $objTbEquipamento->Get("nrserie");
         $arrTempor["dtaquisicao"] = $fmt->data($objTbEquipamento->Get("dtaquisicao"));
@@ -76,7 +76,7 @@
   //-------------------------------------------------------------------------------------------------------------------//
   if(isset($_GET["action"]) && $_GET["action"]== "gravar"){
     $objTbEquipamento->Set("idequipamento",$_POST["idEquipamento"]);
-    $objTbEquipamento->Set("nmequipamento",$_POST["nmEquipamento"]);
+    $objTbEquipamento->Set("nmequipamento",utf8_decode($_POST["nmEquipamento"]));
     $objTbEquipamento->Set("dstipo",$_POST["dsTipo"]);
     $objTbEquipamento->Set("nrserie",$_POST["nrSerie"]);
     $objTbEquipamento->Set("dtaquisicao",$_POST["dtAquisicao"]);
