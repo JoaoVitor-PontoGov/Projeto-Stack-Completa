@@ -155,7 +155,7 @@
       $("#menu").kendoMenu({
         dataSource: [
           {
-            text: "Janelas",
+            text: "Consultas",
             items: [
               {
                 text: "Consulta Equipamento",
@@ -167,6 +167,12 @@
                 text: "Consulta Colaborador",
                 select: function () {
                   OpenWindow(false, "ConsultaColaborador", "controller/colaborador/ctrColaborador.php?action=winConsulta", "Consulta Colaborador")
+                }
+              },
+              {
+                text: "Consulta Alocacao",
+                select: function(){
+                  OpenWindow(false, "ConsultaAlocacao", "controller/alocacao/ctrAlocacao.php?action=winConsulta", "Consulta Alocacao")
                 }
               }
             ]

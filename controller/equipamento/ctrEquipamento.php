@@ -53,7 +53,7 @@
       foreach($aroTbEquipamento as $objTbEquipamento){
         $arrTempor["idequipamento"] = $objTbEquipamento->Get("idequipamento");
         $arrTempor["nmequipamento"] = utf8_encode($objTbEquipamento->Get("nmequipamento"));
-        $arrTempor["dstipo"] = $objTbEquipamento->Get("dstipo");
+        $arrTempor["dstipo"] = utf8_encode($objTbEquipamento->Get("dstipo"));
         $arrTempor["nrserie"] = $objTbEquipamento->Get("nrserie");
         $arrTempor["dtaquisicao"] = $fmt->data($objTbEquipamento->Get("dtaquisicao"));
         $arrTempor["flstatus"] = $objTbEquipamento->Get("flstatus");
