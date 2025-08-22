@@ -126,6 +126,19 @@
 
     
     function OpenWindow(blModal, nmJanela, dsUrlController, dsTitulo = '') {
+
+      if($('#Win' + nmJanela).data("kendoWindow")){
+        $('#Win' + nmJanela).data("kendoWindow").close();
+
+        setTimeout(function(){
+          CreateWindow(blModal, nmJanela, dsUrlController, dsTitulo)
+        }, 500)
+      } else {
+        CreateWindow(blModal, nmJanela, dsUrlController, dsTitulo)
+      }
+    }
+
+    function CreateWindow(blModal, nmJanela, dsUrlController, dsTitulo = ''){
       $("#DivWindowArea").append('<div id="Win' + nmJanela + '"></div>');
 
       $('#Win' + nmJanela).kendoWindow({
