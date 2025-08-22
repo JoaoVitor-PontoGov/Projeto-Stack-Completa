@@ -117,3 +117,20 @@
     }
   }
   //-------------------------------------------------------------------------------------------------------------------//
+
+  //-------------------------------------------------------------------------------------------------------------------//
+  // Ação para a exclusão de registros
+  //-------------------------------------------------------------------------------------------------------------------//
+  if(isset($_GET["action"]) && $_GET["action"] == "excluir"){
+    $objTbColaborador = TbColaborador::LoadByIdColaborador($_POST["idColaborador"]);
+
+    $arrResult = $objTbColaborador->Delete($objTbColaborador);
+  
+    if($arrResult["dsMsg"]=="ok"){
+      $objMsg->Succes("ntf","Registro excluido com sucesso!");
+    }else{
+      $objMsg->LoadMessage($arrResult);
+      $objTbColaborador = new TbColaborador();
+    }
+  }
+  //-------------------------------------------------------------------------------------------------------------------//

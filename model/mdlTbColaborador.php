@@ -97,13 +97,13 @@ class TbColaborador{
     $dsSql = "DELETE FROM 
                 shtreinamento.tbcolaboradorequipamento
               WHERE 
-                idcolaboradorequipamento = '". $objTbColaborador->Get("idcolaboradorequipamento") ."',
-              ";
+                idcolaboradorequipamento = ". $objTbColaborador->Get("idcolaboradorequipamento")
+            ;
     
     if(!$dtbServer->Exec($dsSql)){
       $arrMsg = $dtbServer->getMessage();
     } else {
-      $arrMsg = ["dsMsg", "ok"];
+      $arrMsg = ["dsMsg"=> "ok"];
     }
     return $arrMsg;
   }
