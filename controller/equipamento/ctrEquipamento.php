@@ -12,6 +12,11 @@
   // Ação de Abertura da Tela de Consulta
   //-------------------------------------------------------------------------------------------------------------------//
   if(isset($_GET["action"]) && $_GET["action"] == "winConsulta"){
+
+    if(isset($_GET["frmResult"]) && $_GET["frmResult"] != "") {
+      $frmResult = "#".$_GET["frmResult"];
+    }
+
     require_once "../../view/equipamento/viwConsultaEquipamento.php";
   }
   //-------------------------------------------------------------------------------------------------------------------//

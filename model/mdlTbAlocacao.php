@@ -78,9 +78,9 @@
                   )
                   VALUES(
                     (SELECT NEXTVAL('shtreinamento.sqidalocacao')),
-                    ". $objTbAlocacao->Get("idequipamento ") .",
+                    ". $objTbAlocacao->Get("idequipamento") .",
                     ". $objTbAlocacao->Get("idcolaboradorequipamento") .",
-                    '". $fmt->data($objTbAlocacao->Get("dsinicio")) ."',
+                    '". $fmt->data($objTbAlocacao->Get("dtinicio")) ."',
                     '". $fmt->data($objTbAlocacao->Get("dtdevolucao")) ."'
                   );
                 ";

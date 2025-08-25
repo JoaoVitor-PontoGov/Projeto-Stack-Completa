@@ -125,27 +125,27 @@
      **/
 
     
-    function OpenWindow(blModal, nmJanela, dsUrlController, dsTitulo = '') {
+    function OpenWindow(blModal, nmJanela, dsUrlController, dsTitulo = '', frmResult = '') {
 
       if($('#Win' + nmJanela).data("kendoWindow")){
         $('#Win' + nmJanela).data("kendoWindow").close();
 
         setTimeout(function(){
-          CreateWindow(blModal, nmJanela, dsUrlController, dsTitulo)
+          CreateWindow(blModal, nmJanela, dsUrlController, dsTitulo, frmResult)
         }, 500)
       } else {
-        CreateWindow(blModal, nmJanela, dsUrlController, dsTitulo)
+        CreateWindow(blModal, nmJanela, dsUrlController, dsTitulo, frmResult)
       }
     }
 
-    function CreateWindow(blModal, nmJanela, dsUrlController, dsTitulo = ''){
+    function CreateWindow(blModal, nmJanela, dsUrlController, dsTitulo = '', frmResult = ''){
       $("#DivWindowArea").append('<div id="Win' + nmJanela + '"></div>');
 
       $('#Win' + nmJanela).kendoWindow({
         title: dsTitulo,
         modal: blModal,
-        content: dsUrlController,
-        height: blModal ? "auto" : $("#DivWindowArea").height() - 26,
+        content: dsUrlController + "&frmResult=" + frmResult,
+        height: blModal ? (frmResult ? "500px" : 'auto') : $("#DivWindowArea").height() - 26,
         width: blModal ? "800px" : "99.6%",
         visible: !blModal,
         draggable: blModal,

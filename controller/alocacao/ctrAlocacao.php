@@ -78,36 +78,29 @@
   if(isset($_GET["action"]) && $_GET["action"]== "gravar"){
     $objTbAlocacao->Set("idalocacao",$_POST["idAlocacao"]);
     $objTbAlocacao->Set("idequipamento",$_POST["idEquipamento"]);
-    $objTbAlocacao->Set("nmequipamento",utf8_decode($_POST["nmAlocacao"]));
-    $objTbAlocacao->Set("dstipo",$_POST["dsTipo"]);
-    $objTbAlocacao->Set("nrserie",$_POST["nrSerie"]);
-    $objTbAlocacao->Set("dtaquisicao",$_POST["dtAquisicao"]);
-    $objTbAlocacao->Set("flstatus",$_POST["flStatus"]);
+    $objTbAlocacao->Set("idcolaboradorequipamento",$_POST["idColaborador"]);
+    $objTbAlocacao->Set("dtinicio",$_POST["dtInicio"]);
+    $objTbAlocacao->Set("dtdevolucao",$_POST["dtDevolucao"]);
 
     $strMessage = "";
 
-    if(empty($objTbAlocacao->Get("nmequipamento"))){
-      $strMessage .= "&raquo; O campo <strong>Nome</strong> é obrigatório<br>";
+    if(empty($objTbAlocacao->Get("idequipamento"))){
+      $strMessage .= "&raquo; O campo <strong>Equipamento</strong> é obrigatório<br>";
     }
 
-    if(empty($objTbAlocacao->Get("dstipo"))){
-      $strMessage .= "&raquo; O campo <strong>Tipo</strong> é obrigatório<br>";
+    if(empty($objTbAlocacao->Get("idcolaboradorequipamento"))){
+      $strMessage .= "&raquo; O campo <strong>Colaborador</strong> é obrigatório<br>";
     }
 
-    if(empty($objTbAlocacao->Get("nrserie"))){
-      $strMessage .= "&raquo; O campo <strong>Num Serie</strong> é obrigatório<br>";
+    if(empty($objTbAlocacao->Get("dtinicio"))){
+      $strMessage .= "&raquo; O campo <strong>Data de Inicio</strong> é obrigatório<br>";
     }
-    if(empty($objTbAlocacao->Get("dtaquisicao"))){
-      $strMessage .= "&raquo; O campo <strong>Data de Aquisicao</strong> é obrigatório<br>";
-    }
-    if(empty($objTbAlocacao->Get("flstatus"))){
-      $strMessage .= "&raquo; O campo <strong>Status</strong> é obrigatório<br>";
-    }
+    
 
     if($strMessage != ""){
       $objMsg->Alert("dlg", $strMessage);
     } else {
-      if($objTbAlocacao->Get("idequipamento")!=""){
+      if($objTbAlocacao->Get("idalocacao")!=""){
         $arrResult = $objTbAlocacao->Update($objTbAlocacao);
         if($arrResult["dsMsg"]=="ok"){
           $objMsg->Succes("ntf","Registro atualizado com sucesso!");

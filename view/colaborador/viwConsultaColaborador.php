@@ -119,6 +119,27 @@
 					type: "spacer"
 				},
 				{
+					type: "buttonGroup", buttons:[
+						{
+							id:"BtnSelecionar",
+							spriteCssClass: "k-pg-icon k-i-l9-c4",
+							text: "Selecionar",
+							group: "actions",
+							enable: false,
+							attributes: { tabindex: "29" },
+							click: function () {
+								var GrdConsultaColaborador = $("#frmConsultaColaborador #GrdConsultaColaborador").data("kendoGrid");
+								var RstColaborador = GrdConsultaColaborador.dataItem(GrdConsultaColaborador.select());
+
+								$("<?=$frmResult?> #idColaborador").val(RstColaborador.idcolaboradorequipamento).change();
+								$("<?=$frmResult?> #nmColaborador").val(RstColaborador.nmcolaborador).change();
+
+								$("#WinConsultaColaborador").data("kendoWindow").close();
+							}
+						}
+					]
+				},
+				{
 					type: "buttonGroup", buttons: [
 						{
 							id: "BtnIncluir",
@@ -246,6 +267,9 @@
 			filter: function (e) { mountFilteredScreen('filterColumn', e, 'ConsultaColaborador', arrDataSource, DtsConsultaColaborador, getExtraFilter()); },
 			change: function () {
 				$("#frmConsultaColaborador #BarAcoes").data("kendoToolBar").enable("#BtnEditar")
+				if("<?=$frmResult?>" != ""){
+					$("#frmConsultaColaborador #BarAcoes").data("kendoToolBar").enable("#BtnSelecionar")
+				}
 			},
 			dataBound: function () {
 				LoadGridExportActions("frmConsultaColaborador", "GrdConsultaColaborador", true)
@@ -253,7 +277,11 @@
 		})
 
     $("#frmConsultaColaborador #GrdConsultaColaborador").on("dblclick", "tbody>tr", function(){
-			$("#frmConsultaColaborador #BtnEditar").click();
+			if("<?=$frmResult?>" != ""){
+				$("#frmConsultaColaborador #BtnSelecionar").click();
+			} else {
+				$("#frmConsultaColaborador #BtnEditar").click();
+			}
 		})
 		//--------------------------------------------------------------------------------------------------------------------//
 

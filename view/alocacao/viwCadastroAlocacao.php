@@ -7,10 +7,24 @@
      //--------------------------------------------------------------------------------------------------------------------//
     // Instanciando os campos da tela de cadastro
     //--------------------------------------------------------------------------------------------------------------------//
-    $("#dtInicio").kendoDatePicker();
+    $("#frmCadastroAlocacao #dtInicio").kendoDatePicker();
 
-    $("#dtDevolucao").kendoDatePicker();
-    //--------------------------------------------------------------------------------------------------------------------//
+    $("#frmCadastroAlocacao #dtDevolucao").kendoDatePicker();
+    //--------------------------------------------------------------------------------------------------------------------/
+
+		$("#frmCadastroAlocacao #BtnEquipamento").kendoButton({
+			spriteCssClass: "k-pg-icon k-i-l1-c2",
+			click: function(){
+				OpenWindow(true, "ConsultaEquipamento", "controller/equipamento/ctrEquipamento.php?action=winConsulta", "Consulta Equipamento","frmCadastroAlocacao");
+			}
+		});
+
+		$("#frmCadastroAlocacao #BtnColaborador").kendoButton({
+			spriteCssClass: "k-pg-icon k-i-l1-c2",
+			click: function(){
+				OpenWindow(true, "ConsultaColaborador", "controller/colaborador/ctrColaborador.php?action=winConsulta", "Consulta Colaborador","frmCadastroAlocacao");
+			}
+		});
 
     //--------------------------------------------------------------------------------------------------------------------//
     // Barra de ações
@@ -119,15 +133,9 @@
 				<td style="text-align: right; width: 120px;">Id Equipamento:</td>
 				<td>
 					<input type="text" id="idEquipamento" name="idEquipamento" class="k-textbox k-input-disabled"
-						readonly="readonly" style="width: 80px;" tabindex="-1" value="<?php echo $objTbAlocacao->GetObjTbEquipamento()->Get("idequipamento") ?>">
-				</td>
-			</tr>
-		</table>
-		<table width="100%" cellspacing="2" cellpadding="0" role="presentation">
-			<tr>
-				<td class="k-required" style="text-align: right; width: 120px;">Nome Equipamento:</td>
-				<td>
-					<input tabindex="1" type="text" id="nmEquipamento" name="nmEquipamento" class="k-textbox" style="width: 600px;"
+						readonly="readonly" style="width: 60px;" tabindex="-1" value="<?php echo $objTbAlocacao->GetObjTbEquipamento()->Get("idequipamento") ?>">
+					<span id="BtnEquipamento" style="cursor: pointer; height: 24px width: 24px;" title="Consultar colaborador"></span>
+					<input tabindex="1" type="text" id="nmEquipamento" name="nmEquipamento" class="k-textbox" style="width: 511px;"
 					 value="<?php echo $objTbAlocacao->GetObjTbEquipamento()->Get("nmequipamento")?>">
 				</td>
 			</tr>
@@ -137,15 +145,9 @@
 				<td style="text-align: right; width: 120px;">Id Colaborador:</td>
 				<td>
 					<input type="text" id="idColaborador" name="idColaborador" class="k-textbox k-input-disabled"
-						readonly="readonly" style="width: 80px;" tabindex="-1" value="<?php echo $objTbAlocacao->GetObjTbColaborador()->Get("idcolaboradorequipamento") ?>">
-				</td>
-			</tr>
-		</table>
-		<table width="100%" cellspacing="2" cellpadding="0" role="presentation">
-			<tr>
-				<td class="k-required" style="text-align: right; width: 120px;">Nome Colaborador:</td>
-				<td>
-					<input tabindex="2" type="text" id="nmColaborador" name="nmColaborador" class="k-textbox" style="width: 600px;"
+						readonly="readonly" style="width: 60px;" tabindex="-1" value="<?php echo $objTbAlocacao->GetObjTbColaborador()->Get("idcolaboradorequipamento") ?>">
+						<span id="BtnColaborador" style="cursor: pointer; height: 24px width: 24px;" title="Consultar colaborador"></span>
+						<input tabindex="2" type="text" id="nmColaborador" name="nmColaborador" class="k-textbox" style="width: 511px;"
 					 value="<?php echo $objTbAlocacao->GetObjTbColaborador()->Get("nmcolaborador")?>">
 				</td>
 			</tr>
@@ -154,16 +156,12 @@
 			<tr>
 				<td class="k-required" style="text-align: right; width: 120px;">Data de inicio:</td>
 				<td>
-					<input tabindex="3" id="dtInicio" name="dtInicio" style="width: 250px;"
+					<input tabindex="3" id="dtInicio" name="dtInicio" style="width: 100px;"
 					value="<?php echo $fmt->data($objTbAlocacao->Get("dtinicio"))?>">
 				</td>
-			</tr>
-		</table>
-    <table width="100%" cellspacing="2" cellpadding="0" role="presentation">
-			<tr>
-				<td class="k-required" style="text-align: right; width: 120px;">Data de devolucao:</td>
+				<td class="k-required" style="text-align: right; width: 333px;">Data de devolucao:</td>
 				<td>
-					<input tabindex="3" id="dtDevolucao" name="dtDevolucao" style="width: 250px;"
+					<input tabindex="3" id="dtDevolucao" name="dtDevolucao" style="width: 100px;"
 					value="<?php echo $fmt->data($objTbAlocacao->Get("dtdevolucao"))?>">
 				</td>
 			</tr>
