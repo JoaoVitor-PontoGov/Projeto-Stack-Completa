@@ -138,6 +138,22 @@
 				},
 				{
 					type: "buttonGroup", buttons:[
+						
+						{
+							id:"BtnAlocar",
+							spriteCssClass: "k-pg-icon k-i-l3-c5",
+							text: "Alocar",
+							group: "actions",
+							enable: false,
+							attributes: { tabindex: "28" },
+							click: function () {
+								var GrdConsultaEquipamento = $("#frmConsultaEquipamento #GrdConsultaEquipamento").data("kendoGrid");
+								var RstEquipamento = GrdConsultaEquipamento.dataItem(GrdConsultaEquipamento.select());
+								console.log(RstEquipamento)
+
+								OpenWindow(true, "CadastroAlocacao", "controller/alocacao/ctrAlocacao.php?action=incluir&idEquipamento=" + RstEquipamento.idequipamento, "Cadastro Alocacao")
+							}
+						},
 						{
 							id:"BtnSelecionar",
 							spriteCssClass: "k-pg-icon k-i-l9-c4",
@@ -285,6 +301,7 @@
 			filter: function (e) { mountFilteredScreen('filterColumn', e, 'ConsultaEquipamento', arrDataSource, DtsConsultaEquipamento, getExtraFilter()); },
 			change: function () {
 				$("#frmConsultaEquipamento #BarAcoes").data("kendoToolBar").enable("#BtnEditar")
+				$("#frmConsultaEquipamento #BarAcoes").data("kendoToolBar").enable("#BtnAlocar")
 				if("<?=$frmResult?>" != ""){
 					$("#frmConsultaEquipamento #BarAcoes").data("kendoToolBar").enable("#BtnSelecionar")
 				}
@@ -322,6 +339,7 @@
 		<div id="splConsulta">
 			<div id="splHeader">
 				<div class="k-bg-blue screen-filter-content">
+					
 					<table>
 						<tr>
 							<td style="width: 120px;text-align: right;vertical-align: top;padding-top: 6px;">

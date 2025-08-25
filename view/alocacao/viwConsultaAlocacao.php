@@ -164,7 +164,6 @@
 							group: "actions",
 							attributes: { tabindex: "30" },
 							click: function () {
-								console.log("!")
 								OpenWindow(true, "CadastroAlocacao", "controller/alocacao/ctrAlocacao.php?action=incluir", "Cadastro Alocacao")
 							}
 						},

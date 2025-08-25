@@ -22,6 +22,11 @@
   //  Ação de inclusão de registros
   //-------------------------------------------------------------------------------------------------------------------//
   if (isset($_GET["action"]) && $_GET["action"] == "incluir") {
+
+    $objTbAlocacao->Set("idequipamento", $_GET["idEquipamento"]);
+
+    $blEquipamentoInformado = $_GET["idEquipamento"] != "";
+
     require_once "../../view/alocacao/viwCadastroAlocacao.php";
   }
   //-------------------------------------------------------------------------------------------------------------------//

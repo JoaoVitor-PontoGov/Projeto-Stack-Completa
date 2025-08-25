@@ -14,6 +14,7 @@
 
 		$("#frmCadastroAlocacao #BtnEquipamento").kendoButton({
 			spriteCssClass: "k-pg-icon k-i-l1-c2",
+			enable: <?=$blEquipamentoInformado ? "false" : "true" ?>,
 			click: function(){
 				OpenWindow(true, "ConsultaEquipamento", "controller/equipamento/ctrEquipamento.php?action=winConsulta", "Consulta Equipamento","frmCadastroAlocacao");
 			}
@@ -49,7 +50,13 @@
 
 										if(response.flTipo == "S"){
 											$("#frmConsultaAlocacao #BtnPesquisar").click();
-											$("#frmCadastroAlocacao #BtnLimpar").click();
+
+											if(!<?=$blEquipamentoInformado ? "true" : "false" ?>){
+												$("#frmCadastroAlocacao #BtnLimpar").click();
+											} else {
+												$("#WinCadastroAlocacao").data("kendoWindow").close();
+											}
+											
 										}
 									},"json"
 								)
@@ -130,19 +137,19 @@
 		</table>
     <table width="100%" cellspacing="2" cellpadding="0" role="presentation">
 			<tr>
-				<td style="text-align: right; width: 120px;">Id Equipamento:</td>
+				<td class="k-required" style="text-align: right; width: 120px;">Equipamento:</td>
 				<td>
 					<input type="text" id="idEquipamento" name="idEquipamento" class="k-textbox k-input-disabled"
 						readonly="readonly" style="width: 60px;" tabindex="-1" value="<?php echo $objTbAlocacao->GetObjTbEquipamento()->Get("idequipamento") ?>">
 					<span id="BtnEquipamento" style="cursor: pointer; height: 24px width: 24px;" title="Consultar colaborador"></span>
 					<input tabindex="1" type="text" id="nmEquipamento" name="nmEquipamento" class="k-textbox" style="width: 511px;"
-					 value="<?php echo $objTbAlocacao->GetObjTbEquipamento()->Get("nmequipamento")?>">
+					 value="<?php echo $objTbAlocacao->GetObjTbEquipamento()->Get("nmequipamento")?>" readonly= <?=$blEquipamentoInformado ? "false" : "true" ?>>
 				</td>
 			</tr>
 		</table>
     <table width="100%" cellspacing="2" cellpadding="0" role="presentation">
 			<tr>
-				<td style="text-align: right; width: 120px;">Id Colaborador:</td>
+				<td class="k-required" style="text-align: right; width: 120px;">Colaborador:</td>
 				<td>
 					<input type="text" id="idColaborador" name="idColaborador" class="k-textbox k-input-disabled"
 						readonly="readonly" style="width: 60px;" tabindex="-1" value="<?php echo $objTbAlocacao->GetObjTbColaborador()->Get("idcolaboradorequipamento") ?>">
@@ -159,7 +166,7 @@
 					<input tabindex="3" id="dtInicio" name="dtInicio" style="width: 100px;"
 					value="<?php echo $fmt->data($objTbAlocacao->Get("dtinicio"))?>">
 				</td>
-				<td class="k-required" style="text-align: right; width: 333px;">Data de devolucao:</td>
+				<td style="text-align: right; width: 333px;">Data de devolucao:</td>
 				<td>
 					<input tabindex="3" id="dtDevolucao" name="dtDevolucao" style="width: 100px;"
 					value="<?php echo $fmt->data($objTbAlocacao->Get("dtdevolucao"))?>">
