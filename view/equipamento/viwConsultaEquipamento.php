@@ -97,7 +97,7 @@
 				positionPreview: '5'
 			},
 			{
-				name: "flstatus",
+				name: "dsstatus",
 				type: "string",
 				label: "Status",
 				visibleFilter: 'true',

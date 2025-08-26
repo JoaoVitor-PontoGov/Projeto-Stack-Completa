@@ -61,8 +61,17 @@
         $arrTempor["dstipo"] = utf8_encode($objTbEquipamento->Get("dstipo"));
         $arrTempor["nrserie"] = $objTbEquipamento->Get("nrserie");
         $arrTempor["dtaquisicao"] = $fmt->data($objTbEquipamento->Get("dtaquisicao"));
-        $arrTempor["flstatus"] = $objTbEquipamento->Get("flstatus");
-
+        switch($objTbEquipamento->Get("flstatus")){
+          case "DP":
+            $arrTempor["dsstatus"] =  utf8_encode("Disponível");
+            break;
+          case "EU":
+            $arrTempor["dsstatus"] =  utf8_encode("Em uso");
+            break;
+          case "EM":
+            $arrTempor["dsstatus"] =  utf8_encode("Em manutenção");
+            break;
+        }
         array_push($arrLinhas, $arrTempor);
       }
 

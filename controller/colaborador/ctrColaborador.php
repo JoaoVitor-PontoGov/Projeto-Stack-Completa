@@ -144,7 +144,7 @@
   //-------------------------------------------------------------------------------------------------------------------//
   //  Ação para auto complete
   //-------------------------------------------------------------------------------------------------------------------//
-  if(isset($_GET["action"]) && $_GET["action"] == "AutoCompleteColaborador"){
+  if(isset($_GET["action"]) && $_GET["action"] == "AutoComplete"){
     $strFiltro = "and upper(clear(nmcolaborador)) like upper(clear('%".utf8_decode($_GET["filter"]["filters"][0]["value"])."%'))";
     $strOrdenacao = " nmcolaborador asc";
 

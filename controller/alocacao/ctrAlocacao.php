@@ -125,6 +125,9 @@
       $strMessage .= "&raquo; O campo <strong>Data de Inicio</strong> é obrigatório<br>";
     }
     
+    if($objTbAlocacao->GetObjTbEquipamento()->Get("flstatus")!= "DP"){
+      $strMessage .= "&raquo; O seu <strong>Equipamento</strong> não está disponível<br>";
+    }
 
     if($strMessage != ""){
       $objMsg->Alert("dlg", $strMessage);
@@ -140,7 +143,17 @@
       } else {
         $arrResult = $objTbAlocacao->Insert($objTbAlocacao);
         if($arrResult["dsMsg"]=="ok"){
-          $objMsg->Succes("ntf","Registro inserido com sucesso!");
+
+          $objTbEquipamento = $objTbAlocacao->GetObjTbEquipamento();
+          $objTbEquipamento->Set("flstatus", "EU");
+
+          $arrResult = $objTbEquipamento->Update($objTbEquipamento);
+          if($arrResult["dsMsg"]!="ok"){
+            $objMsg->LoadMessage($arrResult);
+          } else {
+            $objMsg->Succes("ntf","Registro inserido com sucesso!");
+          }
+
         }else{
           $objMsg->LoadMessage($arrResult);
           $objTbAlocacao = new TbAlocacao();
