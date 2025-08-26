@@ -147,3 +147,27 @@
     }
   }
   //-------------------------------------------------------------------------------------------------------------------//
+
+  //-------------------------------------------------------------------------------------------------------------------//
+  //  Ação para auto complete
+  //-------------------------------------------------------------------------------------------------------------------//
+  if(isset($_GET["action"]) && $_GET["action"] == "AutoComplete"){
+    $strFiltro = " and upper(clear(nmequipamento)) like upper(clear('%".utf8_decode($_GET["filter"]["filters"][0]["value"])."%'))";
+    $strOrdenacao = " nmequipamento asc";
+
+    $aroTbEquipamento = TbEquipamento::ListByCondicao($strFiltro, $strOrdenacao);
+
+    if($aroTbEquipamento && is_array($aroTbEquipamento)){
+      $arrTempor = array();
+      $arrLinhas = array();
+
+      foreach($aroTbEquipamento as $key => $objTbEquipamento){
+        $arrTempor["idequipamento"] = utf8_encode($objTbEquipamento->Get("idequipamento"));
+        $arrTempor["nmequipamento"] = utf8_encode($objTbEquipamento->Get("nmequipamento"));
+        array_push($arrLinhas, $arrTempor);
+      }
+    }
+
+    header("Content-type:application/json");
+    echo "{\"data\":" . json_encode($arrLinhas) . "}";
+  }  

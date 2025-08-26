@@ -121,6 +121,14 @@
 				{
 					type: "buttonGroup", buttons:[
 						{
+							id: "BtnAcessoRapido",
+							spriteCssClass: "k-pg-icon k-i-l2-c10",
+							text: "Acesso Rapido <span class='k-icon k-i-arrow-s' style='width:12px'></span>",
+							group: "actions",
+							enable: false,
+							attributes: { tabindex: "27" },
+						},
+						{
 							id:"BtnSelecionar",
 							spriteCssClass: "k-pg-icon k-i-l9-c4",
 							text: "Selecionar",
@@ -180,6 +188,29 @@
 					]
 				}
 			]
+		})
+		//--------------------------------------------------------------------------------------------------------------------//
+
+		//--------------------------------------------------------------------------------------------------------------------//
+		// Menu com botões
+		//--------------------------------------------------------------------------------------------------------------------//
+		// Excluindo o menu caso já exista
+		if($("#menuAcessoRapidoColaborador").data("kendoContextMenu")){
+			$("#menuAcessoRapidoColaborador").data("kendoContextMenu").destroy()
+		}
+
+		$("#frmConsultaColaborador #menuAcessoRapidoColaborador").kendoContextMenu({
+			target: "#frmConsultaColaborador #BtnAcessoRapido",
+			alignToAnchor: true,
+			showOn:"click",
+			select: function(e){
+				var GrdConsultaColaborador = $("#frmConsultaColaborador #GrdConsultaColaborador").data("kendoGrid");
+				var RstColaborador = GrdConsultaColaborador.dataItem(GrdConsultaColaborador.select());
+
+				if(e.item.id == "BtnHistoricoAlocacao"){
+					OpenWindow(false, "ConsultaAlocacao", "controller/alocacao/ctrAlocacao.php?action=winConsulta&idColaborador=" + RstColaborador.idcolaboradorequipamento, "Consulta Alocacao")
+				}
+			}
 		})
 		//--------------------------------------------------------------------------------------------------------------------//
 
@@ -267,6 +298,7 @@
 			filter: function (e) { mountFilteredScreen('filterColumn', e, 'ConsultaColaborador', arrDataSource, DtsConsultaColaborador, getExtraFilter()); },
 			change: function () {
 				$("#frmConsultaColaborador #BarAcoes").data("kendoToolBar").enable("#BtnEditar")
+				$("#frmConsultaColaborador #BarAcoes").data("kendoToolBar").enable("#BtnAcessoRapido")				
 				if("<?=$frmResult?>" != ""){
 					$("#frmConsultaColaborador #BarAcoes").data("kendoToolBar").enable("#BtnSelecionar")
 				}
@@ -340,6 +372,10 @@
       </div>
       <div id="splMiddle">
         <div id="GrdConsultaColaborador" data-use-state-screen="true"></div>
+
+				<ul id="menuAcessoRapidoColaborador" style="display: none;">
+					<li id="BtnHistoricoAlocacao"><span class="k-pg-icon k-i-l3-c7"></span>&nbsp;Historico de alocacoes</li>
+				</ul>
       </div>
       <div id="splFooter">
         <div id="bottonConsultaColaborador">

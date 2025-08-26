@@ -34,11 +34,11 @@
 				serverFiltering: true,
 				transport: {
 					read: {
-						url: "controller/alocacao/ctrAlocacao.php",
+						url: "controller/equipamento/ctrEquipamento.php",
 						typr: "get",
 						dataType: "json",
 						data: {
-							action: 'AutoCompleteEquipamento'
+							action: 'AutoComplete'
 						}
 					}
 				},
@@ -67,11 +67,11 @@
 				serverFiltering: true,
 				transport: {
 					read: {
-						url: "controller/alocacao/ctrAlocacao.php",
+						url: "controller/colaborador/ctrColaborador.php",
 						typr: "get",
 						dataType: "json",
 						data: {
-							action: 'AutoCompleteColaborador'
+							action: 'AutoComplete'
 						}
 					}
 				},

@@ -8,6 +8,7 @@
 
   $objTbAlocacao = new TbAlocacao();
   $objTbEquipamento = new TbEquipamento();
+  $objTbColaborador = new TbColaborador();
   $fmt = new Format();
   $objMsg = new Message();
 
@@ -16,7 +17,17 @@
   //------------------------------------------------------------------------------------------------------------------//
   if(isset($_GET["action"]) && $_GET["action"] == "winConsulta") {
       
-    $objTbEquipamento = TbEquipamento::LoadByIdEquipamento($_GET["idEquipamento"]);
+    if($_GET["idEquipamento"] != ""){
+      $objTbEquipamento = TbEquipamento::LoadByIdEquipamento($_GET["idEquipamento"]);
+    } else {
+      $objTbEquipamento = new TbEquipamento;
+    }
+
+    if($_GET["idColaborador"] != ""){
+      $objTbColaborador = TbColaborador::LoadByIdColaborador($_GET["idColaborador"]);
+    } else {
+      $objTbColaborador = new TbColaborador;
+    }
 
     require_once "../../view/alocacao/viwConsultaAlocacao.php";
   }
@@ -50,10 +61,19 @@
   //-------------------------------------------------------------------------------------------------------------------//
   if(isset($_GET["action"]) && $_GET["action"]=="ListAlocacao"){
     $objFilter = new Filter($_GET);
+    $strFilter = $objFilter->GetWhere();
     
+    if($_GET["idEquipamento"] != ""){
+      $strFilter .= " AND idequipamento = " . $_GET["idEquipamento"];
+    }
+
+    if($_GET["idColaborador"] != ""){
+      $strFilter .= " AND idcolaboradorequipamento = " . $_GET["idColaborador"];
+    }
+
     global $_intTotalAlocacao;
 
-    $aroTbAlocacao = TbAlocacao::ListByCondicao($objFilter->GetWhere(), $objFilter->GetOrderBy());
+    $aroTbAlocacao = TbAlocacao::ListByCondicao($strFilter, $objFilter->GetOrderBy());
 
     if(is_array($aroTbAlocacao) && count($aroTbAlocacao)> 0){
       $arrLinhas = [];
@@ -145,50 +165,4 @@
       $objTbAlocacao = new TbAlocacao();
     }
   }
-  //-------------------------------------------------------------------------------------------------------------------//
-
-  //-------------------------------------------------------------------------------------------------------------------//
-  //  Ação para auto complete
-  //-------------------------------------------------------------------------------------------------------------------//
-  if(isset($_GET["action"]) && $_GET["action"] == "AutoCompleteEquipamento"){
-    $strFiltro = " and upper(clear(nmequipamento)) like upper(clear('%".utf8_decode($_GET["filter"]["filters"][0]["value"])."%'))";
-    $strOrdenacao = " nmequipamento asc";
-
-    $aroTbEquipamento = TbEquipamento::ListByCondicao($strFiltro, $strOrdenacao);
-
-    if($aroTbEquipamento && is_array($aroTbEquipamento)){
-      $arrTempor = array();
-      $arrLinhas = array();
-
-      foreach($aroTbEquipamento as $key => $objTbEquipamento){
-        $arrTempor["idequipamento"] = utf8_encode($objTbEquipamento->Get("idequipamento"));
-        $arrTempor["nmequipamento"] = utf8_encode($objTbEquipamento->Get("nmequipamento"));
-        array_push($arrLinhas, $arrTempor);
-      }
-    }
-
-    header("Content-type:application/json");
-    echo "{\"data\":" . json_encode($arrLinhas) . "}";
-  }  
-
-  if(isset($_GET["action"]) && $_GET["action"] == "AutoCompleteColaborador"){
-    $strFiltro = "and upper(clear(nmcolaborador)) like upper(clear('%".utf8_decode($_GET["filter"]["filters"][0]["value"])."%'))";
-    $strOrdenacao = " nmcolaborador asc";
-
-    $aroTbColaborador = TbColaborador::ListByCondicao($strFiltro, $strOrdenacao);
-
-    if($aroTbColaborador && is_array($aroTbColaborador)){
-      $arrTempor = array();
-      $arrLinhas = array();
-
-      foreach($aroTbColaborador as $key => $colaborador){
-        $arrTempor["idcolaboradorequipamento"] = utf8_encode($colaborador->Get("idcolaboradorequipamento"));
-        $arrTempor["nmcolaborador"] = utf8_encode($colaborador->Get("nmcolaborador"));
-        array_push($arrLinhas, $arrTempor);
-      }
-    }
-
-    header("Content-type:application/json");
-    echo "{\"data\":" . json_encode($arrLinhas) . "}";
-  } 
   //-------------------------------------------------------------------------------------------------------------------//

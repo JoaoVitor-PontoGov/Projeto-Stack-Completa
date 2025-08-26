@@ -140,3 +140,28 @@
     }
   }
   //-------------------------------------------------------------------------------------------------------------------//
+
+  //-------------------------------------------------------------------------------------------------------------------//
+  //  Ação para auto complete
+  //-------------------------------------------------------------------------------------------------------------------//
+  if(isset($_GET["action"]) && $_GET["action"] == "AutoCompleteColaborador"){
+    $strFiltro = "and upper(clear(nmcolaborador)) like upper(clear('%".utf8_decode($_GET["filter"]["filters"][0]["value"])."%'))";
+    $strOrdenacao = " nmcolaborador asc";
+
+    $aroTbColaborador = TbColaborador::ListByCondicao($strFiltro, $strOrdenacao);
+
+    if($aroTbColaborador && is_array($aroTbColaborador)){
+      $arrTempor = array();
+      $arrLinhas = array();
+
+      foreach($aroTbColaborador as $key => $colaborador){
+        $arrTempor["idcolaboradorequipamento"] = utf8_encode($colaborador->Get("idcolaboradorequipamento"));
+        $arrTempor["nmcolaborador"] = utf8_encode($colaborador->Get("nmcolaborador"));
+        array_push($arrLinhas, $arrTempor);
+      }
+    }
+
+    header("Content-type:application/json");
+    echo "{\"data\":" . json_encode($arrLinhas) . "}";
+  } 
+  //-------------------------------------------------------------------------------------------------------------------//

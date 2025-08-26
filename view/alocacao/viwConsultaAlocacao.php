@@ -244,7 +244,9 @@
 					data: function(){
 						return {
 							action: "ListAlocacao",
-							filters: getExtraFilter()
+							filters: 	getExtraFilter(),
+							idEquipamento: $("#frmConsultaAlocacao #idEquipamento").val(),
+							idColaborador: $("#frmConsultaAlocacao #idColaborador").val()
 						}
 					}
 				}
@@ -346,9 +348,9 @@
 						<tr>
 							<td style="width: 120px; text-align: right;">Equipamento:</td>
 							<td style="padding-left: 3px;">
-								<input type="text" tabindex="-1" name="idEquipamento" id="idEquipamento" class="k-input-disabled k-textbox" readonly="readonly" style="width: 60px; background-color: #e8e8e8;">
+								<input type="text" tabindex="-1" name="idEquipamento" id="idEquipamento" class="k-input-disabled k-textbox" readonly="readonly" style="width: 60px; background-color: #e8e8e8;" value="<?php echo $objTbEquipamento->Get('idequipamento') ?>">
 								<span tabindex="-1" id="BtnEquipamento" style="cursor: pointer; whidth: 24px; height: 24px;" title="Consultar Alocacoes..."></span>
-								<input type="text" tabindex="-1" id="nmEquipamento" name="nmEquipamento" class="k-input-disabled k-textbox" readonly="readonly" style="width: 426px; background-color: #e8e8e8;">
+								<input type="text" tabindex="-1" id="nmEquipamento" name="nmEquipamento" class="k-input-disabled k-textbox" readonly="readonly" style="width: 426px; background-color: #e8e8e8;" value="<?php echo $objTbEquipamento->Get('nmequipamento') ?>">
 								<span tabindex="-1" id="BtnExcluirEquipamento" style="cursor: pointer; width: 21px !important; height: 21px !important; margin-left: -1px !important;" title="Excluir Equipamento..."></span>
 							</td>
 						</tr>
@@ -356,9 +358,9 @@
 						<tr>
 							<td style="width: 120px; text-align: right;">Colaborador:</td>
 							<td style="padding-left: 3px;">
-								<input type="text" tabindex="-1" name="idColaborador" id="idColaborador" class="k-input-disabled k-textbox" readonly="readonly" style="width: 60px; background-color: #e8e8e8;">
+								<input type="text" tabindex="-1" name="idColaborador" id="idColaborador" class="k-input-disabled k-textbox" readonly="readonly" style="width: 60px; background-color: #e8e8e8;" value="<?php echo $objTbColaborador->Get('idcolaboradorequipamento') ?>">
 								<span tabindex="-1" id="BtnColaborador" style="cursor: pointer; whidth: 24px; height: 24px;" title="Consultar Alocacoes..."></span>
-								<input type="text" tabindex="-1" id="nmColaborador" name="nmColaborador" class="k-input-disabled k-textbox" readonly="readonly" style="width: 426px; background-color: #e8e8e8;">
+								<input type="text" tabindex="-1" id="nmColaborador" name="nmColaborador" class="k-input-disabled k-textbox" readonly="readonly" style="width: 426px; background-color: #e8e8e8;" value="<?php echo $objTbColaborador->Get('nmcolaborador') ?>">
 								<span tabindex="-1" id="BtnExcluirColaborador" style="cursor: pointer; width: 21px !important; height: 21px !important; margin-left: -1px !important;" title="Excluir Colaborador..."></span>
 							</td>
 						</tr>

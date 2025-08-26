@@ -242,6 +242,7 @@
 
 				if(e.item.id == "BtnHistoricoAlocacao"){
 					OpenWindow(false, "ConsultaAlocacao", "controller/alocacao/ctrAlocacao.php?action=winConsulta&idEquipamento=" + RstEquipamento.idequipamento, "Consulta Alocacao")
+					$("#frmConsultaAlocacao #BtnPesquisar").click();
 				}
 			}
 		})
