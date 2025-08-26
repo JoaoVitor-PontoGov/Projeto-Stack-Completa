@@ -32,4 +32,16 @@ class DtbServer{
   public function FetchArray(){
     return pg_fetch_array($this->result);
   }
+
+  public function Begin(){
+    pg_query($this->conn, "BEGIN");
+  }
+
+  public function Commit(){
+    pg_query($this->conn, "COMMIT");
+  }
+
+  public function Rollback(){
+    pg_query($this->conn, "ROLLBACK");
+  }
 }

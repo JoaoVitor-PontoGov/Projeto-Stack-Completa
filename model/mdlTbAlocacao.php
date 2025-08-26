@@ -6,7 +6,8 @@
     private $idcolaboradorequipamento;
     private $dtinicio;
     private $dtdevolucao;
-
+    private $dtbLink;
+    
     public function __construct(){
       $this->idalocacao = "";
       $this->idequipamento = "";
@@ -21,6 +22,10 @@
 
     public function Get($prpTbAlocacao){
       return $this->$prpTbAlocacao;
+    }
+
+    public function SetDtbLink($dtbLink){
+      $this->dtbLink = $dtbLink;
     }
 
     public function LoadObject($resSet){
@@ -64,7 +69,9 @@
     }
 
     public function Insert($objTbAlocacao){
-      $dtbServer = new DtbServer();
+      if($this->dtbLink == null){
+        $this->dtbLink = new DtbServer();
+      }
 
       $fmt = new Format();
 
@@ -80,13 +87,13 @@
                     (SELECT NEXTVAL('shtreinamento.sqidalocacao')),
                     ". $objTbAlocacao->Get("idequipamento") .",
                     ". $objTbAlocacao->Get("idcolaboradorequipamento") .",
-                    '". $fmt->data($objTbAlocacao->Get("dtinicio")) ."',
-                    '". $fmt->data($objTbAlocacao->Get("dtdevolucao")) ."'
+                    '". ($objTbAlocacao->Get("dtinicio")) ."',
+                    ". $fmt->DataBd($objTbAlocacao->Get("dtdevolucao")) ."
                   );
                 ";
 
-      if(!$dtbServer->Exec($dsSql)){
-        $arrMsg = $dtbServer->getMessage();
+      if(!$this->dtbLink->Exec($dsSql)){
+        $arrMsg = $this->dtbLink->getMessage();
       } else {
         $arrMsg = ["dsMsg"=> "ok"];
       }
@@ -95,7 +102,9 @@
     }
 
     public function Update($objTbAlocacao){
-      $dtbServer = new DtbServer();
+      if($this->dtbLink == null){
+        $this->dtbLink = new DtbServer();
+      }
 
       $fmt = new Format();
 
@@ -105,14 +114,14 @@
                   idalocacao = '". $objTbAlocacao->Get("idalocacao") ."',
                   idequipamento = '". $objTbAlocacao->Get("idequipamento") ."',
                   idcolaboradorequipamento = '". $objTbAlocacao->Get("idcolaboradorequipamento") ."',
-                  dtinicio = '". $fmt->data($objTbAlocacao->Get("dtinicio")) ."',
-                  dtdevolucao = '". $fmt->data($objTbAlocacao->Get("dtdevolucao")) ."'
+                  dtinicio = '". ($objTbAlocacao->Get("dtinicio")) ."',
+                  dtdevolucao = ". $fmt->DataBd($objTbAlocacao->Get("dtdevolucao")) ."
                 WHERE 
                   idalocacao = ". $objTbAlocacao->Get("idalocacao") . ";
                 ";
 
-      if(!$dtbServer->Exec($dsSql)){
-        $arrMsg = $dtbServer->getMessage();
+      if(!$this->dtbLink->Exec($dsSql)){
+        $arrMsg = $this->dtbLink->getMessage();
       } else {
         $arrMsg = ["dsMsg"=> "ok"];
       }
@@ -120,7 +129,9 @@
     }
 
     public function Delete($objTbAlocacao){
-      $dtbServer = new DtbServer();
+      if($this->dtbLink == null){
+        $this->dtbLink = new DtbServer();
+      }
 
       $dsSql = "DELETE FROM 
                   shtreinamento.tbalocacao
@@ -128,8 +139,8 @@
                   idalocacao = ". $objTbAlocacao->Get("idalocacao")
               ;
       
-      if(!$dtbServer->Exec($dsSql)){
-        $arrMsg = $dtbServer->getMessage();
+      if(!$this->dtbLink->Exec($dsSql)){
+        $arrMsg = $this->dtbLink->getMessage();
       } else {
         $arrMsg = ["dsMsg"=> "ok"];
       }
@@ -165,7 +176,7 @@
                 FROM
                   shtreinamento.tbalocacao
                 WHERE 
-                  1 = 1
+                  1 = 1 
                 ";
 
       if($strCondicao){

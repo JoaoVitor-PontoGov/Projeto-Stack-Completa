@@ -8,13 +8,19 @@
     //--------------------------------------------------------------------------------------------------------------------//
     // Instanciando os campos da tela de cadastro
     //--------------------------------------------------------------------------------------------------------------------//
-    $("#nrSerie").kendoNumericTextBox({
+    $("#frmCadastroEquipamento #nrSerie").kendoNumericTextBox({
 			min: '0',
 			format: "0",
 			decimals: 0,
 		})
 
-    $("#dtAquisicao").kendoDatePicker();
+    $("#frmCadastroEquipamento #dtAquisicao").kendoDatePicker({
+			format: "dd/MM/yyyy"
+		});
+
+		$("#frmCadastroEquipamento #dtAquisicao").kendoMaskedTextBox({
+			mask: "00/00/0000"
+		});
 
     $("#flStatus").kendoDropDownList({})
     //--------------------------------------------------------------------------------------------------------------------//

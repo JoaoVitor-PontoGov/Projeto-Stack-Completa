@@ -2,8 +2,10 @@
   require_once "../../lib/libDatabase.php";
   require_once "../../lib/libUtils.php";
   require_once "../../model/mdlTbEquipamento.php";
+  require_once "../../model/mdlTbAlocacao.php";
 
   $objTbEquipamento = new TbEquipamento();
+  $objTbAlocacao = new TbAlocacao();
   $fmt = new Format();
   $objMsg = new Message();
   
@@ -93,7 +95,7 @@
     $objTbEquipamento->Set("nmequipamento",utf8_decode($_POST["nmEquipamento"]));
     $objTbEquipamento->Set("dstipo",utf8_decode($_POST["dsTipo"]));
     $objTbEquipamento->Set("nrserie",$_POST["nrSerie"]);
-    $objTbEquipamento->Set("dtaquisicao",$_POST["dtAquisicao"]);
+    $objTbEquipamento->Set("dtaquisicao",$fmt->data($_POST["dtAquisicao"]));
     $objTbEquipamento->Set("flstatus",$_POST["flStatus"]);
 
     $strMessage = "";
@@ -146,11 +148,33 @@
   if(isset($_GET["action"]) && $_GET["action"] == "excluir"){
     $objTbEquipamento = TbEquipamento::LoadByIdEquipamento($_POST["idEquipamento"]);
 
+    $aroTbAlocacao = TbAlocacao::ListByCondicao("AND idequipamento=" . $_POST["idEquipamento"], "");
+    $dtbLink = new DtbServer();
+    
+    $dtbLink->Begin();
+    
+    if(is_array($aroTbAlocacao)){
+      foreach($aroTbAlocacao as $key => $objTbAlocacao){
+        $objTbAlocacao->SetDtbLink($dtbLink);
+        
+        $arrResult = $objTbAlocacao->Delete($objTbAlocacao);
+        
+        if($arrResult["dsMsg"]!="ok"){
+          $dtbLink->Rollback();
+          $objMsg->LoadMessage($arrResult);
+          exit;
+        }
+      }
+    }
+    $objTbEquipamento->SetDtbLink($dtbLink);
+    
     $arrResult = $objTbEquipamento->Delete($objTbEquipamento);
   
     if($arrResult["dsMsg"]=="ok"){
+      $dtbLink->Commit();
       $objMsg->Succes("ntf","Registro excluido com sucesso!");
     }else{
+      $dtbLink->Rollback();
       $objMsg->LoadMessage($arrResult);
       $objTbEquipamento = new TbEquipamento();
     }

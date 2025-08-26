@@ -7,6 +7,7 @@ class TbEquipamento{
   private $nrserie;
   private $dtaquisicao;
   private $flstatus;
+  private $dtbLink;
 
   public function __construct(){
     $this->idequipamento = "";
@@ -23,6 +24,10 @@ class TbEquipamento{
 
   public function Get($prpTbEquipamento){
     return $this->$prpTbEquipamento;
+  }
+
+  public function SetDtbLink($dtbLink){
+    $this->dtbLink = $dtbLink;
   }
 
   public function LoadObject($resSet){
@@ -42,8 +47,9 @@ class TbEquipamento{
   }
 
   public function Insert($objTbEquipamento){
-    $dtbServer = new DtbServer();
-
+    if($this->dtbLink == null){
+      $this->dtbLink = new DtbServer();
+    }
     $fmt = new Format();
 
     $dsSql = "INSERT INTO 
@@ -60,12 +66,12 @@ class TbEquipamento{
                   '".$fmt->escSqlQuotes($objTbEquipamento->Get("nmequipamento")) ."',
                   '".$fmt->escSqlQuotes($objTbEquipamento->Get("dstipo")) ."',
                   ".$objTbEquipamento->Get("nrserie") .",
-                  '". $fmt->data($objTbEquipamento->Get("dtaquisicao")) ."',
+                  '".$objTbEquipamento->Get("dtaquisicao") ."',
                   '".$objTbEquipamento->Get("flstatus") ."'
                 );";
 
-    if(!$dtbServer->Exec($dsSql)){
-      $arrMsg = $dtbServer->getMessage();
+    if(!$this->dtbLink->Exec($dsSql)){
+      $arrMsg = $this->dtbLink->getMessage();
     }else{
       $arrMsg = ["dsMsg"=>"ok"];
     }
@@ -73,24 +79,26 @@ class TbEquipamento{
   }
 
   public function Update($objTbEquipamento){
-    $dtbServer = new DtbServer();
+    if($this->dtbLink == null){
+      $this->dtbLink = new DtbServer();
+    }
 
     $fmt = new Format();
 
     $dsSql = "UPDATE 
                 shtreinamento.tbequipamento
               SET 
-                idequipamento = ".$objTbEquipamento->Get("idequipamento") .",
-                nmequipamento = '".$fmt->escSqlQuotes($objTbEquipamento->Get("nmequipamento")) ."',
-                dstipo = '".$fmt->escSqlQuotes($objTbEquipamento->Get("dstipo")) ."',
-                nrserie = ".$objTbEquipamento->Get("nrserie") .",
-                dtaquisicao = '". $fmt->data($objTbEquipamento->Get("dtaquisicao")) ."',
+                idequipamento = ".$objTbEquipamento->Get("idequipamento") .", 
+                nmequipamento = '".$fmt->escSqlQuotes($objTbEquipamento->Get("nmequipamento")) ."', 
+                dstipo = '".$fmt->escSqlQuotes($objTbEquipamento->Get("dstipo")) ."', 
+                nrserie = ".$objTbEquipamento->Get("nrserie") .", 
+                dtaquisicao = ". $fmt->DataBd($objTbEquipamento->Get("dtaquisicao")) .", 
                 flstatus = '".$objTbEquipamento->Get("flstatus") ."'
               WHERE
                 idequipamento = ".$objTbEquipamento->Get("idequipamento") .";";
 
-    if(!$dtbServer->Exec($dsSql)){
-      $arrMsg = $dtbServer->getMessage();
+    if(!$this->dtbLink->Exec($dsSql)){
+      $arrMsg = $this->dtbLink->getMessage();
     }else{
       $arrMsg = ["dsMsg"=>"ok"];
     }
@@ -98,15 +106,17 @@ class TbEquipamento{
   }
 
   public function Delete($objTbEquipamento){
-    $dtbServer = new DtbServer();
+    if($this->dtbLink == null){
+      $this->dtbLink = new DtbServer();
+    }
   
     $dsSql = "DELETE FROM
                 shtreinamento.tbequipamento
               WHERE
                 idequipamento = " . $objTbEquipamento->Get("idequipamento") .";";
 
-    if(!$dtbServer->Exec($dsSql)){
-      $arrMsg = $dtbServer->getMessage();
+    if(!$this->dtbLink->Exec($dsSql)){
+      $arrMsg = $this->dtbLink->getMessage();
     }else{
       $arrMsg = ["dsMsg"=>"ok"];
     }

@@ -7,9 +7,21 @@
      //--------------------------------------------------------------------------------------------------------------------//
     // Instanciando os campos da tela de cadastro
     //--------------------------------------------------------------------------------------------------------------------//
-    $("#frmCadastroAlocacao #dtInicio").kendoDatePicker();
+    $("#frmCadastroAlocacao #dtInicio").kendoDatePicker({
+			format: "dd/MM/yyyy"
+		});
 
-    $("#frmCadastroAlocacao #dtDevolucao").kendoDatePicker();
+		$("#frmCadastroAlocacao #dtInicio").kendoMaskedTextBox({
+			mask: "00/00/0000"
+		});
+
+    $("#frmCadastroAlocacao #dtDevolucao").kendoDatePicker({
+			format: "dd/MM/yyyy"
+		});
+
+		$("#frmCadastroAlocacao #dtDevolucao").kendoMaskedTextBox({
+			mask: "00/00/0000"
+		});
     //--------------------------------------------------------------------------------------------------------------------/
 
 		$("#frmCadastroAlocacao #BtnEquipamento").kendoButton({

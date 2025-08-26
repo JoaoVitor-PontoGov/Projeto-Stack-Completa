@@ -86,7 +86,7 @@
         $arrTempor["idcolaboradorequipamento"] = utf8_encode($objTbAlocacao->Get("idcolaboradorequipamento"));
         $arrTempor["nmcolaborador"] = utf8_encode($objTbAlocacao->GetObjTbColaborador()->Get("nmcolaborador"));
         $arrTempor["dtinicio"] = $fmt->data($objTbAlocacao->Get("dtinicio"));
-        $arrTempor["dtdevolucao"] = $fmt->data($objTbAlocacao->Get("dtdevolucao"));
+        $arrTempor["dtdevolucao"] = ($objTbAlocacao->Get("dtdevolucao"));
 
         array_push($arrLinhas, $arrTempor);
       }
@@ -108,7 +108,7 @@
     $objTbAlocacao->Set("idalocacao",$_POST["idAlocacao"]);
     $objTbAlocacao->Set("idequipamento",$_POST["idEquipamento"]);
     $objTbAlocacao->Set("idcolaboradorequipamento",$_POST["idColaborador"]);
-    $objTbAlocacao->Set("dtinicio",$_POST["dtInicio"]);
+    $objTbAlocacao->Set("dtinicio",$fmt->data($_POST["dtInicio"]));
     $objTbAlocacao->Set("dtdevolucao",$_POST["dtDevolucao"]);
 
     $strMessage = "";
@@ -132,31 +132,44 @@
     if($strMessage != ""){
       $objMsg->Alert("dlg", $strMessage);
     } else {
+      $dtbLink = new DtbServer();
+      $dtbLink->Begin();
+
+      $objTbAlocacao->SetDtbLink($dtbLink);
+    
       if($objTbAlocacao->Get("idalocacao")!=""){
         $arrResult = $objTbAlocacao->Update($objTbAlocacao);
+
         if($arrResult["dsMsg"]=="ok"){
+          $dtbLink->Commit();
           $objMsg->Succes("ntf","Registro atualizado com sucesso!");
-        }else{
-          $objMsg->LoadMessage($arrResult);
           $objTbAlocacao = new TbAlocacao();
+        }else{
+          $dtbLink->Rollback();
+          $objMsg->LoadMessage($arrResult);
         }
       } else {
         $arrResult = $objTbAlocacao->Insert($objTbAlocacao);
-        if($arrResult["dsMsg"]=="ok"){
 
+        if($arrResult["dsMsg"]=="ok"){
           $objTbEquipamento = $objTbAlocacao->GetObjTbEquipamento();
           $objTbEquipamento->Set("flstatus", "EU");
 
+          $objTbEquipamento->SetDtbLink($dtbLink);
+
           $arrResult = $objTbEquipamento->Update($objTbEquipamento);
+
           if($arrResult["dsMsg"]!="ok"){
+            $dtbLink->Rollback();
             $objMsg->LoadMessage($arrResult);
           } else {
+            $dtbLink->Commit();
             $objMsg->Succes("ntf","Registro inserido com sucesso!");
+            $objTbAlocacao = new TbAlocacao();
           }
-
         }else{
+          $dtbLink->Rollback();
           $objMsg->LoadMessage($arrResult);
-          $objTbAlocacao = new TbAlocacao();
         }
       }
     }

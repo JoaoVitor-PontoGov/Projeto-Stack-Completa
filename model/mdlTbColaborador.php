@@ -135,7 +135,7 @@ class TbColaborador{
               FROM
                 shtreinamento.tbcolaboradorequipamento
               WHERE 
-                1 = 1
+                1 = 1 
               ";
 
     if($strCondicao){
