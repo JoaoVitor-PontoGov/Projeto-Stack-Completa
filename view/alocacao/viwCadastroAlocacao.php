@@ -27,6 +27,72 @@
 			}
 		});
 
+		$("#frmCadastroAlocacao #nmEquipamento").kendoAutoComplete({
+			dataTextField: "nmequipamento",
+			minLength: 2,
+			dataSource:{
+				serverFiltering: true,
+				transport: {
+					read: {
+						url: "controller/alocacao/ctrAlocacao.php",
+						typr: "get",
+						dataType: "json",
+						data: {
+							action: 'AutoCompleteEquipamento'
+						}
+					}
+				},
+				schema: {
+					data: "data",
+					model:{
+						fields:{
+							idequipamento: {field: "idequipamento", type: "number"},
+							nmequipamento: {field: "nmequipamento", type: "string"}
+						}
+					}
+				}
+			},
+			select: function(e){
+				$("#frmCadastroAlocacao #idEquipamento").val(this.dataItem(e.item.index()).idequipamento);
+			},
+			filtering: function(e){
+				$("#frmCadastroAlocacao #idEquipamento").val('');
+			}
+		});
+
+		$("#frmCadastroAlocacao #nmColaborador").kendoAutoComplete({
+			dataTextField: "nmcolaborador",
+			minLength: 2,
+			dataSource:{
+				serverFiltering: true,
+				transport: {
+					read: {
+						url: "controller/alocacao/ctrAlocacao.php",
+						typr: "get",
+						dataType: "json",
+						data: {
+							action: 'AutoCompleteColaborador'
+						}
+					}
+				},
+				schema: {
+					data: "data",
+					model:{
+						fields:{
+							idcolaboradorequipamento: {field: "idcolaboradorequipamento", type: "number"},
+							nmcolaborador: {field: "nmcolaborador", type: "string"}
+						}
+					}
+				}
+			},
+			select: function(e){
+				$("#frmCadastroAlocacao #idColaborador").val(this.dataItem(e.item.index()).idcolaboradorequipamento);
+			},
+			filtering: function(e){
+				$("#frmCadastroAlocacao #idColaborador").val('');
+			}
+		});
+
     //--------------------------------------------------------------------------------------------------------------------//
     // Barra de ações
     //--------------------------------------------------------------------------------------------------------------------//
@@ -142,8 +208,8 @@
 					<input type="text" id="idEquipamento" name="idEquipamento" class="k-textbox k-input-disabled"
 						readonly="readonly" style="width: 60px;" tabindex="-1" value="<?php echo $objTbAlocacao->GetObjTbEquipamento()->Get("idequipamento") ?>">
 					<span id="BtnEquipamento" style="cursor: pointer; height: 24px width: 24px;" title="Consultar colaborador"></span>
-					<input tabindex="1" type="text" id="nmEquipamento" name="nmEquipamento" class="k-textbox" style="width: 511px;"
-					 value="<?php echo $objTbAlocacao->GetObjTbEquipamento()->Get("nmequipamento")?>" readonly= <?=$blEquipamentoInformado ? "false" : "true" ?>>
+					<input tabindex="1" type="text" id="nmEquipamento" name="nmEquipamento" style="width: 511px;"
+					 value="<?php echo $objTbAlocacao->GetObjTbEquipamento()->Get("nmequipamento")?>" <?php echo $blEquipamentoInformado ? "readonly='true'" : "" ?> <?php echo $blEquipamentoInformado ? "class='k-textbox k-input-disabled'" : "class='k-textbox'" ?>>
 				</td>
 			</tr>
 		</table>

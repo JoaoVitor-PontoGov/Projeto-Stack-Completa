@@ -7,6 +7,7 @@
   require_once "../../model/mdlTbEquipamento.php";
 
   $objTbAlocacao = new TbAlocacao();
+  $objTbEquipamento = new TbEquipamento();
   $fmt = new Format();
   $objMsg = new Message();
 
@@ -14,6 +15,9 @@
   // Ação de Abertura da Tela de Consulta
   //------------------------------------------------------------------------------------------------------------------//
   if(isset($_GET["action"]) && $_GET["action"] == "winConsulta") {
+      
+    $objTbEquipamento = TbEquipamento::LoadByIdEquipamento($_GET["idEquipamento"]);
+
     require_once "../../view/alocacao/viwConsultaAlocacao.php";
   }
   //------------------------------------------------------------------------------------------------------------------//
@@ -141,4 +145,50 @@
       $objTbAlocacao = new TbAlocacao();
     }
   }
+  //-------------------------------------------------------------------------------------------------------------------//
+
+  //-------------------------------------------------------------------------------------------------------------------//
+  //  Ação para auto complete
+  //-------------------------------------------------------------------------------------------------------------------//
+  if(isset($_GET["action"]) && $_GET["action"] == "AutoCompleteEquipamento"){
+    $strFiltro = " and upper(clear(nmequipamento)) like upper(clear('%".utf8_decode($_GET["filter"]["filters"][0]["value"])."%'))";
+    $strOrdenacao = " nmequipamento asc";
+
+    $aroTbEquipamento = TbEquipamento::ListByCondicao($strFiltro, $strOrdenacao);
+
+    if($aroTbEquipamento && is_array($aroTbEquipamento)){
+      $arrTempor = array();
+      $arrLinhas = array();
+
+      foreach($aroTbEquipamento as $key => $objTbEquipamento){
+        $arrTempor["idequipamento"] = utf8_encode($objTbEquipamento->Get("idequipamento"));
+        $arrTempor["nmequipamento"] = utf8_encode($objTbEquipamento->Get("nmequipamento"));
+        array_push($arrLinhas, $arrTempor);
+      }
+    }
+
+    header("Content-type:application/json");
+    echo "{\"data\":" . json_encode($arrLinhas) . "}";
+  }  
+
+  if(isset($_GET["action"]) && $_GET["action"] == "AutoCompleteColaborador"){
+    $strFiltro = "and upper(clear(nmcolaborador)) like upper(clear('%".utf8_decode($_GET["filter"]["filters"][0]["value"])."%'))";
+    $strOrdenacao = " nmcolaborador asc";
+
+    $aroTbColaborador = TbColaborador::ListByCondicao($strFiltro, $strOrdenacao);
+
+    if($aroTbColaborador && is_array($aroTbColaborador)){
+      $arrTempor = array();
+      $arrLinhas = array();
+
+      foreach($aroTbColaborador as $key => $colaborador){
+        $arrTempor["idcolaboradorequipamento"] = utf8_encode($colaborador->Get("idcolaboradorequipamento"));
+        $arrTempor["nmcolaborador"] = utf8_encode($colaborador->Get("nmcolaborador"));
+        array_push($arrLinhas, $arrTempor);
+      }
+    }
+
+    header("Content-type:application/json");
+    echo "{\"data\":" . json_encode($arrLinhas) . "}";
+  } 
   //-------------------------------------------------------------------------------------------------------------------//

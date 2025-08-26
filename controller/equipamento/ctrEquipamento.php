@@ -82,7 +82,7 @@
   if(isset($_GET["action"]) && $_GET["action"]== "gravar"){
     $objTbEquipamento->Set("idequipamento",$_POST["idEquipamento"]);
     $objTbEquipamento->Set("nmequipamento",utf8_decode($_POST["nmEquipamento"]));
-    $objTbEquipamento->Set("dstipo",$_POST["dsTipo"]);
+    $objTbEquipamento->Set("dstipo",utf8_decode($_POST["dsTipo"]));
     $objTbEquipamento->Set("nrserie",$_POST["nrSerie"]);
     $objTbEquipamento->Set("dtaquisicao",$_POST["dtAquisicao"]);
     $objTbEquipamento->Set("flstatus",$_POST["flStatus"]);

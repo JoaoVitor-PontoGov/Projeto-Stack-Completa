@@ -138,7 +138,14 @@
 				},
 				{
 					type: "buttonGroup", buttons:[
-						
+						{
+							id: "BtnAcessoRapido",
+							spriteCssClass: "k-pg-icon k-i-l2-c10",
+							text: "Acesso Rapido <span class='k-icon k-i-arrow-s' style='width:12px'></span>",
+							group: "actions",
+							enable: false,
+							attributes: { tabindex: "27" },
+						},
 						{
 							id:"BtnAlocar",
 							spriteCssClass: "k-pg-icon k-i-l3-c5",
@@ -194,11 +201,11 @@
 							attributes: { tabindex: "31" },
 							enable: false,
 							click: function () {
-								var grid = $("#frmConsultaEquipamento #GrdConsultaEquipamento").data("kendoGrid")
-								var campoSelecionado = grid.dataItem(grid.select())
+								var GrdConsultaEquipamento = $("#frmConsultaEquipamento #GrdConsultaEquipamento").data("kendoGrid");
+								var RstEquipamento = GrdConsultaEquipamento.dataItem(GrdConsultaEquipamento.select());
 
 
-								OpenWindow(true, "CadastroEquipamento", "controller/equipamento/ctrEquipamento.php?action=editar&idEquipamento="+campoSelecionado.idequipamento, "Cadastro Equipamento")
+								OpenWindow(true, "CadastroEquipamento", "controller/equipamento/ctrEquipamento.php?action=editar&idEquipamento="+RstEquipamento.idequipamento, "Cadastro Equipamento")
 							}
 						},
 						{
@@ -214,6 +221,29 @@
 					]
 				}
 			]
+		})
+		//--------------------------------------------------------------------------------------------------------------------//
+
+		//--------------------------------------------------------------------------------------------------------------------//
+		// Menu com botões
+		//--------------------------------------------------------------------------------------------------------------------//
+		// Excluindo o menu caso já exista
+		if($("#menuAcessoRapidoEquipamento").data("kendoContextMenu")){
+			$("#menuAcessoRapidoEquipamento").data("kendoContextMenu").destroy()
+		}
+
+		$("#frmConsultaEquipamento #menuAcessoRapidoEquipamento").kendoContextMenu({
+			target: "#frmConsultaEquipamento #BtnAcessoRapido",
+			alignToAnchor: true,
+			showOn:"click",
+			select: function(e){
+				var GrdConsultaEquipamento = $("#frmConsultaEquipamento #GrdConsultaEquipamento").data("kendoGrid");
+				var RstEquipamento = GrdConsultaEquipamento.dataItem(GrdConsultaEquipamento.select());
+
+				if(e.item.id == "BtnHistoricoAlocacao"){
+					OpenWindow(false, "ConsultaAlocacao", "controller/alocacao/ctrAlocacao.php?action=winConsulta&idEquipamento=" + RstEquipamento.idequipamento, "Consulta Alocacao")
+				}
+			}
 		})
 		//--------------------------------------------------------------------------------------------------------------------//
 
@@ -302,6 +332,7 @@
 			change: function () {
 				$("#frmConsultaEquipamento #BarAcoes").data("kendoToolBar").enable("#BtnEditar")
 				$("#frmConsultaEquipamento #BarAcoes").data("kendoToolBar").enable("#BtnAlocar")
+				$("#frmConsultaEquipamento #BarAcoes").data("kendoToolBar").enable("#BtnAcessoRapido")
 				if("<?=$frmResult?>" != ""){
 					$("#frmConsultaEquipamento #BarAcoes").data("kendoToolBar").enable("#BtnSelecionar")
 				}
@@ -339,7 +370,7 @@
 		<div id="splConsulta">
 			<div id="splHeader">
 				<div class="k-bg-blue screen-filter-content">
-					
+
 					<table>
 						<tr>
 							<td style="width: 120px;text-align: right;vertical-align: top;padding-top: 6px;">
@@ -375,6 +406,10 @@
 			</div>
 			<div id="splMiddle">
 				<div id="GrdConsultaEquipamento" data-use-state-screen="true"></div>
+
+				<ul id="menuAcessoRapidoEquipamento" style="display: none;">
+					<li id="BtnHistoricoAlocacao"><span class="k-pg-icon k-i-l3-c7"></span>&nbsp;Historico de alocacoes</li>
+				</ul>
 			</div>
 			<div id="splFooter">
 				<div id="bottonConsultaEquipamento">

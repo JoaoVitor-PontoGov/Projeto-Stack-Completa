@@ -28,7 +28,7 @@
 				name: "idequipamento",
 				type: "string",
 				label: "Id Equipamento",
-				visibleFilter: 'true',
+				visibleFilter: 'false',
 				orderFilter: '3',
 
 				orderGrid: '2',
@@ -46,7 +46,7 @@
 				name: "nmequipamento",
 				type: "string",
 				label: "Nome Equipamento",
-				visibleFilter: 'true',
+				visibleFilter: 'false',
 				orderFilter: '4',
 
 				orderGrid: '3',
@@ -64,7 +64,7 @@
 				name: "idcolaboradorequipamento",
 				type: "string",
 				label: "Id Colaborador",
-				visibleFilter: 'true',
+				visibleFilter: 'false',
 				orderFilter: '5',
 
 				orderGrid: '4',
@@ -82,7 +82,7 @@
 				name: "nmcolaborador",
 				type: "string",
 				label: "Nome Colaborador",
-				visibleFilter: 'true',
+				visibleFilter: 'false',
 				orderFilter: '6',
 
 				orderGrid: '5',
@@ -140,6 +140,36 @@
 		//--------------------------------------------------------------------------------------------------------------------//
 		arrDataSource = LoadConfigurationQuery(arrDataSource, "ConsultaAlocacao");
 		//--------------------------------------------------------------------------------------------------------------------//
+
+		$("#frmConsultaAlocacao #BtnEquipamento").kendoButton({
+			spriteCssClass: "k-pg-icon k-i-l1-c2",
+			click: function(){
+				OpenWindow(true, "ConsultaEquipamento", "controller/equipamento/ctrEquipamento.php?action=winConsulta", "Consulta Equipamento","frmConsultaAlocacao");
+			}
+		});
+
+		$("#frmConsultaAlocacao #BtnExcluirEquipamento").kendoButton({
+			spriteCssClass: "k-pg-icon k-i-l1-c6",
+			click: function(){
+				$("#frmConsultaAlocacao #idEquipamento").val("");
+				$("#frmConsultaAlocacao #nmEquipamento").val("");
+			}
+		});
+
+		$("#frmConsultaAlocacao #BtnColaborador").kendoButton({
+			spriteCssClass: "k-pg-icon k-i-l1-c2",
+			click: function(){
+				OpenWindow(true, "ConsultaColaborador", "controller/colaborador/ctrColaborador.php?action=winConsulta", "Consulta Colaborador","frmConsultaAlocacao");
+			}
+		});
+
+		$("#frmConsultaAlocacao #BtnExcluirColaborador").kendoButton({
+			spriteCssClass: "k-pg-icon k-i-l1-c6",
+			click: function(){
+				$("#frmConsultaAlocacao #idColaborador").val("");
+				$("#frmConsultaAlocacao #nmColaborador").val("");
+			}
+		});
 
 		//--------------------------------------------------------------------------------------------------------------------//
 		// Instanciando os campos combo da pesquisa
@@ -312,6 +342,27 @@
     <div id="splConsulta">
       <div id="splHeader">
         <div class="k-bg-blue screen-filter-content">
+					<table width="100%" border="0" cellspacing="2" cellpading="0" role="presentation">
+						<tr>
+							<td style="width: 120px; text-align: right;">Equipamento:</td>
+							<td style="padding-left: 3px;">
+								<input type="text" tabindex="-1" name="idEquipamento" id="idEquipamento" class="k-input-disabled k-textbox" readonly="readonly" style="width: 60px; background-color: #e8e8e8;">
+								<span tabindex="-1" id="BtnEquipamento" style="cursor: pointer; whidth: 24px; height: 24px;" title="Consultar Alocacoes..."></span>
+								<input type="text" tabindex="-1" id="nmEquipamento" name="nmEquipamento" class="k-input-disabled k-textbox" readonly="readonly" style="width: 426px; background-color: #e8e8e8;">
+								<span tabindex="-1" id="BtnExcluirEquipamento" style="cursor: pointer; width: 21px !important; height: 21px !important; margin-left: -1px !important;" title="Excluir Equipamento..."></span>
+							</td>
+						</tr>
+
+						<tr>
+							<td style="width: 120px; text-align: right;">Colaborador:</td>
+							<td style="padding-left: 3px;">
+								<input type="text" tabindex="-1" name="idColaborador" id="idColaborador" class="k-input-disabled k-textbox" readonly="readonly" style="width: 60px; background-color: #e8e8e8;">
+								<span tabindex="-1" id="BtnColaborador" style="cursor: pointer; whidth: 24px; height: 24px;" title="Consultar Alocacoes..."></span>
+								<input type="text" tabindex="-1" id="nmColaborador" name="nmColaborador" class="k-input-disabled k-textbox" readonly="readonly" style="width: 426px; background-color: #e8e8e8;">
+								<span tabindex="-1" id="BtnExcluirColaborador" style="cursor: pointer; width: 21px !important; height: 21px !important; margin-left: -1px !important;" title="Excluir Colaborador..."></span>
+							</td>
+						</tr>
+					</table>
           <table>
 						<tr>
 							<td style="width: 120px;text-align: right;vertical-align: top;padding-top: 6px;">
