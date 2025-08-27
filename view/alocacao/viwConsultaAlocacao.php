@@ -33,11 +33,11 @@
 
 				orderGrid: '2',
 				widthGrid: '70',
-				hiddenGrid: 'false',
+				hiddenGrid: 'true',
 				headerAttributesGrid: 'text-align: center',
 				atttibutesGrid: 'text-align: center',
 
-				showPreview: 'true',
+				showPreview: 'false',
 				indiceTabPreview: 'tabDadosGerais',
 				widthPreview: '80',
 				positionPreview: '2',
@@ -45,19 +45,19 @@
 			{
 				name: "nmequipamento",
 				type: "string",
-				label: "Nome Equipamento",
+				label: "Equipamento",
 				visibleFilter: 'false',
 				orderFilter: '4',
 
 				orderGrid: '3',
-				widthGrid: '200',
+				widthGrid: '600',
 				hiddenGrid: 'false',
 				headerAttributesGrid: 'text-align: center',
 				atttibutesGrid: 'text-align: center',
 
 				showPreview: 'true',
 				indiceTabPreview: 'tabDadosGerais',
-				widthPreview: '400',
+				widthPreview: '600',
 				positionPreview: '3',
 			},
 			{
@@ -69,11 +69,11 @@
 
 				orderGrid: '4',
 				widthGrid: '70',
-				hiddenGrid: 'false',
+				hiddenGrid: 'true',
 				headerAttributesGrid: 'text-align: center',
 				atttibutesGrid: 'text-align: center',
 
-				showPreview: 'true',
+				showPreview: 'false',
 				indiceTabPreview: 'tabDadosGerais',
 				widthPreview: '80',
 				positionPreview: '4',
@@ -81,19 +81,19 @@
 			{
 				name: "nmcolaborador",
 				type: "string",
-				label: "Nome Colaborador",
+				label: "Colaborador",
 				visibleFilter: 'false',
 				orderFilter: '6',
 
 				orderGrid: '5',
-				widthGrid: '300',
+				widthGrid: '600',
 				hiddenGrid: 'false',
 				headerAttributesGrid: 'text-align: center',
 				atttibutesGrid: 'text-align: center',
 
 				showPreview: 'true',
 				indiceTabPreview: 'tabDadosGerais',
-				widthPreview: '400',
+				widthPreview: '600',
 				positionPreview: '5',
 			},
 			{
@@ -111,7 +111,7 @@
 
 				showPreview: 'true',
 				indiceTabPreview: 'tabDadosGerais',
-				widthPreview: '150',
+				widthPreview: '100',
 				positionPreview: '6'
 			},
 			{
@@ -129,8 +129,9 @@
 
 				showPreview: 'true',
 				indiceTabPreview: 'tabDadosGerais',
-				widthPreview: '150',
-				positionPreview: '7'
+				widthPreview: '100',
+				positionPreview: '7',
+				togetherPreview: "dtinicio"
 			}
 
 		]	

@@ -173,10 +173,10 @@
     if($arrResult["dsMsg"]=="ok"){
       $dtbLink->Commit();
       $objMsg->Succes("ntf","Registro excluido com sucesso!");
+      $objTbEquipamento = new TbEquipamento();
     }else{
       $dtbLink->Rollback();
       $objMsg->LoadMessage($arrResult);
-      $objTbEquipamento = new TbEquipamento();
     }
   }
   //-------------------------------------------------------------------------------------------------------------------//

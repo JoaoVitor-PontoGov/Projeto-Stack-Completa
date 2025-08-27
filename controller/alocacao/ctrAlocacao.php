@@ -86,7 +86,7 @@
         $arrTempor["idcolaboradorequipamento"] = utf8_encode($objTbAlocacao->Get("idcolaboradorequipamento"));
         $arrTempor["nmcolaborador"] = utf8_encode($objTbAlocacao->GetObjTbColaborador()->Get("nmcolaborador"));
         $arrTempor["dtinicio"] = $fmt->data($objTbAlocacao->Get("dtinicio"));
-        $arrTempor["dtdevolucao"] = ($objTbAlocacao->Get("dtdevolucao"));
+        $arrTempor["dtdevolucao"] = $fmt->data($objTbAlocacao->Get("dtdevolucao"));
 
         array_push($arrLinhas, $arrTempor);
       }

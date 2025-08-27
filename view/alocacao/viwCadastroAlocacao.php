@@ -246,7 +246,7 @@
 				</td>
 				<td style="text-align: right; width: 333px;">Data de devolucao:</td>
 				<td>
-					<input tabindex="3" id="dtDevolucao" name="dtDevolucao" style="width: 100px;"
+					<input tabindex="4" id="dtDevolucao" name="dtDevolucao" style="width: 100px;"
 					value="<?php echo $fmt->data($objTbAlocacao->Get("dtdevolucao"))?>">
 				</td>
 			</tr>
